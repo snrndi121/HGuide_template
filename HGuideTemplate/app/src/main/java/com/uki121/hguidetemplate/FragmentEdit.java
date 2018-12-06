@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 public class FragmentEdit extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_content_main, container, false);
+        View view = inflater.inflate(R.layout.content_edit, container, false);
         return view;
     }
 }

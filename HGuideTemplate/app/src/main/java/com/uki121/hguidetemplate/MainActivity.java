@@ -26,12 +26,14 @@ public class MainActivity extends AppCompatActivity
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
     //Element_fragment_main
+    /*
     if (findViewById(R.id.fragment_container) != null) {
         if (savedInstanceState != null) {
             return;
         }
     }
-    //(tips)새 프레고먼트 생성
+    */
+    //(tips)새 프레그먼트 생성
     NavListFragment fragMain = new NavListFragment();
     fragMain.setArguments(getIntent().getExtras());
     //(tips)액티비티가 인텐트의 특정 명령무에서 시작됐다면, 인텐트의 엑스트라를 인자로 프레그먼트에 전달한다.
@@ -102,14 +104,19 @@ public class MainActivity extends AppCompatActivity
     FragmentManager fragmentManager = getFragmentManager();
     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
+    //Todo : replace or add choose
     if (id == R.id.nav_scene1) {
-      fragmentTransaction.replace(R.id.fragment_container, new FragmentScroll());
+      fragmentTransaction.add(R.id.fragment_container, FragmentScroll.newInstance()).commit();
+
     } else if (id == R.id.nav_scene2) {
       fragmentTransaction.add(R.id.fragment_container, new FragmentEdit()).commit();
+
     } else if (id == R.id.nav_scene3) {
       fragmentTransaction.add(R.id.fragment_container, new FragmentProcess()).commit();
+
     } else if (id == R.id.nav_scene4) {
       fragmentTransaction.add(R.id.fragment_container, new FragmentPopup()).commit();
+
     }
     /*
       Todo : This will be implemented by "list", not showing new fragment
@@ -119,7 +126,6 @@ public class MainActivity extends AppCompatActivity
       fragmentTransaction.add(R.id.fragment_container, ~).commit();
     }
     */
-    fragmentTransaction.commit();
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     drawer.closeDrawer(GravityCompat.START);
     return true;
