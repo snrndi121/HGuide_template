@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 public class FragmentProcess extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.content_process, container, false);
+        View view = inflater.inflate(R.layout.sample, container, false);
         return view;
     }
 }

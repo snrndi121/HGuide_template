@@ -1,6 +1,7 @@
 package com.uki121.hguidetemplate;
 
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -18,33 +19,24 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity
   implements NavigationView.OnNavigationItemSelectedListener {
-
+  Fragment mscroll, medit, mprocess, mpopup;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
-    //Element_fragment_main
+    //fragment
+    mscroll = new FragmentScroll();
     /*
-    if (findViewById(R.id.fragment_container) != null) {
-        if (savedInstanceState != null) {
-            return;
-        }
-    }
+    FragmentManager fragmentManager = getFragmentManager();
+    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+    fragmentTransaction.add(R.id.content_main, new FragmentProcess());
+    fragmentTransaction.addToBackStack(null);
+    fragmentTransaction.commit();
     */
-    //(tips)새 프레그먼트 생성
-    NavListFragment fragMain = new NavListFragment();
-    fragMain.setArguments(getIntent().getExtras());
-    //(tips)액티비티가 인텐트의 특정 명령무에서 시작됐다면, 인텐트의 엑스트라를 인자로 프레그먼트에 전달한다.
-    getSupportFragmentManager().beginTransaction()
-      //(tips)프레그먼트 매니저 인스턴스의 beginTransaction() 호출
-      .add(R.id.fragment_container,
-        //(tips)프레그먼트 트랜젝션 인스턴스의 add 메소드를 호출하고 프레그먼트(R.id.fragMain)포함
-        //하는 뷰의 리소스 id와 프레그먼트 클래스의 인스턴스(fragMain)를 전달
-        fragMain).commit();
 
-    //Element_floating Icon
+    //floating Icon
     FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
     fab.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -53,7 +45,7 @@ public class MainActivity extends AppCompatActivity
           .setAction("Action", null).show();
       }
     });
-    //Element_navigation
+    //navigation
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
       this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -106,18 +98,22 @@ public class MainActivity extends AppCompatActivity
 
     //Todo : replace or add choose
     if (id == R.id.nav_scene1) {
-      fragmentTransaction.add(R.id.fragment_container, FragmentScroll.newInstance()).commit();
+      //fragmentTransaction.add(R.id.content_main, mscroll).commit();
+      fragmentTransaction.replace(R.id.content_main, FragmentScroll.newInstance());
 
-    } else if (id == R.id.nav_scene2) {
-      fragmentTransaction.add(R.id.fragment_container, new FragmentEdit()).commit();
+    } /*else if (id == R.id.nav_scene2) {
+      //fragmentTransaction.add(R.id.fragment_container, new FragmentEdit()).commit();
+      //fragmentTransaction.replace(R.id.fragment_container, new FragmentEdit());
 
-    } else if (id == R.id.nav_scene3) {
-      fragmentTransaction.add(R.id.fragment_container, new FragmentProcess()).commit();
+    } */else if (id == R.id.nav_scene3) {
+      //fragmentTransaction.add(R.id.content_main, new FragmentProcess()).commit();
+      fragmentTransaction.replace(R.id.content_main, new FragmentProcess());
 
-    } else if (id == R.id.nav_scene4) {
-      fragmentTransaction.add(R.id.fragment_container, new FragmentPopup()).commit();
+    } /*else if (id == R.id.nav_scene4) {
+      //fragmentTransaction.add(R.id.fragment_container, new FragmentPopup()).commit();
+      //fragmentTransaction.replace(R.id.fragment_container, new FragmentPopup());
 
-    }
+    }*/
     /*
       Todo : This will be implemented by "list", not showing new fragment
       else if (id == R.id.nav_switch) {
@@ -126,6 +122,8 @@ public class MainActivity extends AppCompatActivity
       fragmentTransaction.add(R.id.fragment_container, ~).commit();
     }
     */
+    //fragmentTransaction.addToBackStack(null);
+    fragmentTransaction.commit();
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     drawer.closeDrawer(GravityCompat.START);
     return true;
