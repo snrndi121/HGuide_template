@@ -99,18 +99,18 @@ public class MainActivity extends AppCompatActivity
     //Todo : replace or add choose
     if (id == R.id.nav_scene1) {
       //fragmentTransaction.add(R.id.content_main, mscroll).commit();
-      fragmentTransaction.add(R.id.content_main, new FragmentScroll());
+      fragmentTransaction.replace(R.id.content_main, new FragmentScroll());
 
     } /*else if (id == R.id.nav_scene2) {
-      //fragmentTransaction.add(R.id.fragment_container, new FragmentEdit()).commit();
+      //fragmentTransaction.add(R.id.fragment_container, new FragmentEdit());
       //fragmentTransaction.replace(R.id.fragment_container, new FragmentEdit());
 
     } */else if (id == R.id.nav_scene3) {
-      //fragmentTransaction.add(R.id.content_main, new FragmentProcess()).commit();
-      fragmentTransaction.add(R.id.content_main, new FragmentProcess());
+      //fragmentTransaction.add(R.id.content_main, new FragmentProcess());
+      fragmentTransaction.replace(R.id.content_main, new FragmentProcess());
 
     } /*else if (id == R.id.nav_scene4) {
-      //fragmentTransaction.add(R.id.fragment_container, new FragmentPopup()).commit();
+      //fragmentTransaction.add(R.id.fragment_container, new FragmentPopup());
       //fragmentTransaction.replace(R.id.fragment_container, new FragmentPopup());
 
     }*/
