@@ -1,13 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="app_name">HGuideTemplate</string>
-  <string name="navigation_drawer_open">Open navigation drawer</string>
-  <string name="navigation_drawer_close">Close navigation drawer</string>
-  <string name="nav_header_title">HGduide</string>
-  <string name="nav_header_subtitle">snrndi4521@gmail.com</string>
-  <string name="nav_header_desc">Navigation header</string>
-  <string name="action_settings">Settings</string>
-  <string name="content_popup">POP-UP</string>
-  <string name="example_scroll">1. Definitions.
+    <string-array name="tos">
+        <item>1. Definitions.
 
   "License" shall mean the terms and conditions for use, reproduction, and distribution as defined by Sections 1 through 9 of this document.
 
@@ -95,9 +89,11 @@
 
   9. Accepting Warranty or Additional Liability. While redistributing the Work or Derivative Works thereof, You may choose to offer, and charge a fee for, acceptance of support, warranty, indemnity, or other liability obligations and/or rights consistent with this License. However, in accepting such obligations, You may act only on Your own behalf and on Your sole responsibility, not on behalf of any other Contributor, and only if You agree to indemnify, defend, and hold each Contributor harmless for any liability incurred by, or claims asserted against, such Contributor by reason of your accepting any such warranty or additional liability.
 
-  END OF TERMS AND CONDITIONS</string>
-  <string name="scroll_sample2">지난달 26일 서울 광화문에서 집회를 연 이른바 위인맞이환영단은 김정은 북한 국무위원장의 답방을 환영하는 이유를 이렇게 말했다. 앞서 열린 백두칭송위원회 광화문 집회 참석자도 "정상회담에서 보여준 파격적인 모습은 김 위원장의 본래 모습 그대로라고 생각한다"고 했다. 고모부를 고사총으로 쏴 죽이고, 이복형을 독극물로 암살한 김정은의 행태는 선대로부터 물려받은 정권을 지키기 위해 수단 방법을 가리지 않는 전제(專制) 군주의 전형적인 방식이지만, 우리 국민 일부는 남북 정상회담과 미·북 정상회담에서 김정은이 보여준 호탕하고 활달한 모습에 환호한다. 소설가 복거일씨는 "매력적이고 잘 배운 젊은 독재자에 대한 환상이 한국 땅을 배회하고 있다"며 "우리 국민 일부가 독재자의 본질을 간과하고 있다"고 말했다. 세계 각국 세습 독재자와 그 후계자들에게서 공통적으로 나타나는 기만적이고 폭력적인 통치 행태를 살펴본다.
+  END OF TERMS AND CONDITIONS</item>
+        <item>지난달 26일 서울 광화문에서 집회를 연 이른바 위인맞이환영단은 김정은 북한 국무위원장의 답방을 환영하는 이유를 이렇게 말했다. 앞서 열린 백두칭송위원회 광화문 집회 참석자도 "정상회담에서 보여준 파격적인 모습은 김 위원장의 본래 모습 그대로라고 생각한다"고 했다. 고모부를 고사총으로 쏴 죽이고, 이복형을 독극물로 암살한 김정은의 행태는 선대로부터 물려받은 정권을 지키기 위해 수단 방법을 가리지 않는 전제(專制) 군주의 전형적인 방식이지만, 우리 국민 일부는 남북 정상회담과 미·북 정상회담에서 김정은이 보여준 호탕하고 활달한 모습에 환호한다. 소설가 복거일씨는 "매력적이고 잘 배운 젊은 독재자에 대한 환상이 한국 땅을 배회하고 있다"며 "우리 국민 일부가 독재자의 본질을 간과하고 있다"고 말했다. 세계 각국 세습 독재자와 그 후계자들에게서 공통적으로 나타나는 기만적이고 폭력적인 통치 행태를 살펴본다.
 
 ◇의사 출신 영국 유학생에서 시리아 철권 통치자로 2000년 시리아 국민들은 35세의 젊은 신임 대통령 바샤르 알 아사드가 쏟아낸 파격적인 취임 연설에 귀를 의심했다. "사회의 운영이 하나의 종교, 하나의 정당, 혹은 하나의 그룹에 편중된다면 그 사회는 발전할 수 없다. (중략) 정치제도를 개혁하려면 민주적인 사고방식이 필요하다.법의 지배가 우리의 자유를 지켜줄 것이다." 새 지도자는 자기 말을 입증하려는 듯 "건설적인 비판을 허용하겠다"며 정치범 수백 명을 석방했다. 국영기업 민영화와 부패 척결 등 개혁 조치도 취했다. 아사드의 아버지 하페즈 알 아사드가 자행한 학살과 철권통치에 신음해 온 시리아 국민들은 열광했다. 의대를 나오고 영국에서 유학한 지도자가 펼칠 새 정치에 대한 국민적 기대가 부풀었다. 이른바 '다마스쿠스의 봄'이었다. 그러나 거기까지였다. 민주화 분위기에 고무된 각계 인사 99명이 '다마스쿠스 선언'을 발표하고 검열 폐지 등 추가 개혁을 촉구하고 나서자 불안을 느낀 아사드 대통령은 돌변했다. 집권 이듬해 자신을 반대하는 언론인과 인권운동가들을 잡아들였다. 2007년 대선에 단독 출마한 아사드는 사실상의 공개투표로 97.6% 지지를 받아 재선하며 영구 집권의 길로 들어섰다.
-</string>
+</item>
+        <item>이용약관3</item>
+    </string-array>
 </resources>
