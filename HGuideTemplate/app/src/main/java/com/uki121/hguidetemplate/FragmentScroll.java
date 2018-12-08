@@ -36,22 +36,22 @@ public class FragmentScroll extends Fragment {
 
         mcontext = getActivity();
         //Recycler
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.termOfServices_list);
-        mRecyclerView.setHasFixedSize(true);
+        //mRecyclerView = (RecyclerView) view.findViewById(R.id.termOfServices_list);
+        //mRecyclerView.setHasFixedSize(true);
         // Specify a layout for RecyclerView
         // StaggeredGrid 레이아웃을 사용한다
         // mLayoutManager = new LinearLayoutManager(mcontext);
         // layoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
         // layoutManager = new GridLayoutManager(this,3);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(mcontext));
+        //mRecyclerView.setLayoutManager(new LinearLayoutManager(mcontext));
 
         // 리소스에서 name이 company인 array를 가져와서 String[] 배열에 대입
         List<String> termOfservcies = Arrays.asList(getResources().getStringArray(R.array.tos));
 
         // Initialize a new Adapter for RecyclerView
-        mAdapter = new TosAdapter(mcontext, termOfservcies);
+        //mAdapter = new TosAdapter(mcontext, termOfservcies);
         // Data bind RecyclerView with Adapter
-        mRecyclerView.setAdapter(mAdapter);
+        //mRecyclerView.setAdapter(mAdapter);
 
         return view;
     }

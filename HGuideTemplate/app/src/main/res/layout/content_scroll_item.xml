@@ -26,8 +26,7 @@
             <TextView
                 android:id="@+id/content_tos"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:focusable="false" />
+                android:layout_height="match_parent"/>
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
