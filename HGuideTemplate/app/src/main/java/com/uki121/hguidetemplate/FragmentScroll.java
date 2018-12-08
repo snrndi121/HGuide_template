@@ -34,17 +34,6 @@ public class FragmentScroll extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.content_scroll, container, false);
 
-        mScrollview = (ScrollView) view.findViewById(R.id.cotainer_scroll);
-        mScrollview.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                mScrollview.requestDisallowInterceptTouchEvent(true);
-                return false;
-            }
-        });
-
-
-        출처: http://sondroid.tistory.com/entry/Android-ScrollView-In-ScrollView [손드로이드]
         mcontext = getActivity();
         //Recycler
         mRecyclerView = (RecyclerView) view.findViewById(R.id.termOfServices_list);
