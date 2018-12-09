@@ -19,7 +19,8 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity
   implements NavigationView.OnNavigationItemSelectedListener {
-  Fragment mscroll, medit, mprocess, mpopup;
+  private Fragment mscroll, medit, mprocess, mpopup;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -28,13 +29,12 @@ public class MainActivity extends AppCompatActivity
     setSupportActionBar(toolbar);
     //fragment
     mscroll = new FragmentScroll();
-    /*
+
     FragmentManager fragmentManager = getFragmentManager();
     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-    fragmentTransaction.add(R.id.content_main, new FragmentProcess());
-    fragmentTransaction.addToBackStack(null);
+    fragmentTransaction.add(R.id.content_main, new FragmentHome());
+    //fragmentTransaction.addToBackStack(null);
     fragmentTransaction.commit();
-    */
 
     //floating Icon
     FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -99,18 +99,18 @@ public class MainActivity extends AppCompatActivity
     //Todo : replace or add choose
     if (id == R.id.nav_scene1) {
       //fragmentTransaction.add(R.id.content_main, mscroll).commit();
-      fragmentTransaction.replace(R.id.content_main, FragmentScroll.newInstance());
+      fragmentTransaction.replace(R.id.content_main, new FragmentScroll());
 
     } /*else if (id == R.id.nav_scene2) {
-      //fragmentTransaction.add(R.id.fragment_container, new FragmentEdit()).commit();
+      //fragmentTransaction.add(R.id.fragment_container, new FragmentEdit());
       //fragmentTransaction.replace(R.id.fragment_container, new FragmentEdit());
 
     } */else if (id == R.id.nav_scene3) {
-      //fragmentTransaction.add(R.id.content_main, new FragmentProcess()).commit();
+      //fragmentTransaction.add(R.id.content_main, new FragmentProcess());
       fragmentTransaction.replace(R.id.content_main, new FragmentProcess());
 
     } /*else if (id == R.id.nav_scene4) {
-      //fragmentTransaction.add(R.id.fragment_container, new FragmentPopup()).commit();
+      //fragmentTransaction.add(R.id.fragment_container, new FragmentPopup());
       //fragmentTransaction.replace(R.id.fragment_container, new FragmentPopup());
 
     }*/
@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity
       fragmentTransaction.add(R.id.fragment_container, ~).commit();
     }
     */
-    //fragmentTransaction.addToBackStack(null);
+    fragmentTransaction.addToBackStack(null);
     fragmentTransaction.commit();
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     drawer.closeDrawer(GravityCompat.START);
