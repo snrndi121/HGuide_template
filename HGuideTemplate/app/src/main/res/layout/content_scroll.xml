@@ -5,95 +5,113 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="20dp"
-    android:gravity="center"
-    android:orientation="vertical">
-
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/container_tos1"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_margin="20dp"
-        android:background="@android:color/white"
-        android:padding="10dp">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/container_tos1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="@dimen/scroll_height"
+            android:layout_margin="20dp"
+            android:background="@android:color/white"
+            android:padding="10dp">
 
-            <TextView
-                android:id="@+id/content_tos1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-    </android.support.v4.widget.NestedScrollView>
+                <TextView
+                    android:id="@+id/content_tos1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
         <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Check"
             android:id="@+id/check_tos1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/container_tos" />
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/container_tos2"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_margin="20dp"
-        android:background="@android:color/white"
-        android:padding="10dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/content_tos2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-
-    </android.support.v4.widget.NestedScrollView>
-        <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Check"
+            android:text="@string/agree_tos"
+            android:button="@null"
+            android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/container_tos1" />
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/container_tos2"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/scroll_height"
+            android:layout_margin="20dp"
+            android:background="@android:color/white"
+            android:padding="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/content_tos2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+        <CheckBox
             android:id="@+id/check_tos2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/container_tos" />
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/container_tos3"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_margin="20dp"
-        android:background="@android:color/white"
-        android:padding="10dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/content_tos3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-
-    </android.support.v4.widget.NestedScrollView>
-        <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Check"
-            android:id="@+id/check_tos3"
+            android:text="@string/agree_tos"
+            android:button="@null"
+            android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/container_tos" />
+            app:layout_constraintTop_toBottomOf="@+id/container_tos2" />
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/container_tos3"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/scroll_height"
+            android:layout_margin="20dp"
+            android:background="@android:color/white"
+            android:padding="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/content_tos3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+        <CheckBox
+            android:id="@+id/check_tos3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/agree_tos"
+            android:button="@null"
+            android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/container_tos3" />
+
+        <Button
+            android:id="@+id/btn_scroll_cofirm"
+            android:layout_width="@dimen/button_normal_width"
+            android:layout_height="@dimen/button_normal_height"
+            android:text="@string/button_confirm"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="50dp"
+            app:layout_constraintTop_toBottomOf="@+id/check_tos3" />
     </LinearLayout>
 </ScrollView>
