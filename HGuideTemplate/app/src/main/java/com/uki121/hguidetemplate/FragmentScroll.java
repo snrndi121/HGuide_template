@@ -11,14 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class FragmentScroll extends Fragment {
     private ScrollView mScrollview;
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private TextView textViewTos1,textViewTos2,textViewTos3;
     private Context mcontext;
 
     public FragmentScroll() {};
@@ -33,25 +34,16 @@ public class FragmentScroll extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.content_scroll, container, false);
+        //Initializing variables
+        textViewTos1 = (TextView) view.findViewById(R.id.content_tos1);
+        textViewTos2 = (TextView) view.findViewById(R.id.content_tos2);
+        textViewTos3 = (TextView) view.findViewById(R.id.content_tos3);
 
-        mcontext = getActivity();
-        //Recycler
-        //mRecyclerView = (RecyclerView) view.findViewById(R.id.termOfServices_list);
-        //mRecyclerView.setHasFixedSize(true);
-        // Specify a layout for RecyclerView
-        // StaggeredGrid 레이아웃을 사용한다
-        // mLayoutManager = new LinearLayoutManager(mcontext);
-        // layoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
-        // layoutManager = new GridLayoutManager(this,3);
-        //mRecyclerView.setLayoutManager(new LinearLayoutManager(mcontext));
-
-        // 리소스에서 name이 company인 array를 가져와서 String[] 배열에 대입
-        List<String> termOfservcies = Arrays.asList(getResources().getStringArray(R.array.tos));
-
-        // Initialize a new Adapter for RecyclerView
-        //mAdapter = new TosAdapter(mcontext, termOfservcies);
-        // Data bind RecyclerView with Adapter
-        //mRecyclerView.setAdapter(mAdapter);
+        List <String> tosList = Arrays.asList(getResources().getStringArray(R.array.tos));
+        textViewTos1.setText(tosList.get(0));
+        textViewTos2.setText(tosList.get(1));
+        textViewTos3.setText(tosList.get(2));
+        //mcontext = getActivity();
 
         return view;
     }
