@@ -2,22 +2,14 @@ package com.uki121.hguidetemplate;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.Spannable;
-import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ScrollView;
@@ -95,6 +87,12 @@ public class FragmentScroll extends Fragment {
                     for (int i = 0; i < target.length; ++i) {
                         //highlight
                         if (!target_box[i].isChecked()) {
+                            /* todo : final process
+                            new HGIndicator().use("HIGHLIGHT")
+                                    .rules()
+                                    .target()
+                                    .commit();
+                            */
                             manageBlinkEffect(target[i]);
                         }
                     }
