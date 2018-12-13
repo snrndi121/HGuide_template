@@ -1,176 +1,141 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="14.2">
-  <zoom_level>9</zoom_level>
+  <zoom_level>13</zoom_level>
   <element>
-    <id>UMLGeneric</id>
+    <id>UMLClass</id>
     <coordinates>
-      <x>171</x>
-      <y>153</y>
-      <w>126</w>
-      <h>27</h>
+      <x>663</x>
+      <y>78</y>
+      <w>130</w>
+      <h>39</h>
     </coordinates>
-    <panel_attributes>_:HGIndicator
-bg=orange</panel_attributes>
+    <panel_attributes>HGIndicator
+bg=red</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLGeneric</id>
+    <id>UMLClass</id>
     <coordinates>
-      <x>342</x>
-      <y>153</y>
-      <w>90</w>
-      <h>27</h>
+      <x>416</x>
+      <y>260</y>
+      <w>247</w>
+      <h>182</h>
     </coordinates>
-    <panel_attributes>_:RuleSet
-bg=orange</panel_attributes>
+    <panel_attributes>HGTrigger
+bg=orange
+targets : List &lt; Target &gt;</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLGeneric</id>
+    <id>UMLClass</id>
     <coordinates>
-      <x>504</x>
-      <y>153</y>
-      <w>126</w>
-      <h>27</h>
+      <x>819</x>
+      <y>260</y>
+      <w>130</w>
+      <h>182</h>
     </coordinates>
-    <panel_attributes>_: TriggerEvent
-bg=orange</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLGeneric</id>
-    <coordinates>
-      <x>864</x>
-      <y>153</y>
-      <w>126</w>
-      <h>27</h>
-    </coordinates>
-    <panel_attributes>_: BehavirEvent
-bg=orange</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLGeneric</id>
-    <coordinates>
-      <x>675</x>
-      <y>153</y>
-      <w>126</w>
-      <h>27</h>
-    </coordinates>
-    <panel_attributes>_: Trigger
-bg=orange</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLGeneric</id>
-    <coordinates>
-      <x>1008</x>
-      <y>153</y>
-      <w>126</w>
-      <h>27</h>
-    </coordinates>
-    <panel_attributes>_: Behavir
-bg=orange</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLGeneric</id>
-    <coordinates>
-      <x>1179</x>
-      <y>153</y>
-      <w>126</w>
-      <h>27</h>
-    </coordinates>
-    <panel_attributes>_: Target
+    <panel_attributes>HGAction
 bg=orange</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>225</x>
-      <y>171</y>
-      <w>27</w>
-      <h>702</h>
+      <x>533</x>
+      <y>104</y>
+      <w>221</w>
+      <h>182</h>
     </coordinates>
-    <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;760.0</additional_attributes>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;120.0;10.0;80.0;150.0;80.0;150.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>378</x>
-      <y>171</y>
-      <w>27</w>
-      <h>702</h>
+      <x>715</x>
+      <y>104</y>
+      <w>195</w>
+      <h>182</h>
     </coordinates>
-    <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;760.0</additional_attributes>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>130.0;120.0;130.0;80.0;10.0;80.0;10.0;10.0</additional_attributes>
   </element>
   <element>
-    <id>Relation</id>
+    <id>UMLNote</id>
     <coordinates>
-      <x>558</x>
-      <y>171</y>
-      <w>27</w>
-      <h>702</h>
+      <x>832</x>
+      <y>52</y>
+      <w>468</w>
+      <h>91</h>
     </coordinates>
-    <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;760.0</additional_attributes>
+    <panel_attributes>Note &lt; HGIndicator &gt;
+bg=blue
+타겟(A)에 이벤트(B)가 생기면 타겟(C)에 이벤트(D)해라.</panel_attributes>
+    <additional_attributes/>
   </element>
   <element>
-    <id>Relation</id>
+    <id>UMLNote</id>
     <coordinates>
-      <x>918</x>
-      <y>171</y>
-      <w>27</w>
-      <h>702</h>
+      <x>39</x>
+      <y>247</y>
+      <w>416</w>
+      <h>91</h>
     </coordinates>
-    <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;760.0</additional_attributes>
+    <panel_attributes>Note &lt; HGTrigger &gt;
+bg=blue
+타겟A = {CheckBox, EditText, ScrollView}
+이벤트B = "StatusCheck" 부분</panel_attributes>
+    <additional_attributes/>
   </element>
   <element>
-    <id>Relation</id>
+    <id>UMLNote</id>
     <coordinates>
-      <x>738</x>
-      <y>171</y>
-      <w>27</w>
-      <h>702</h>
+      <x>897</x>
+      <y>169</y>
+      <w>429</w>
+      <h>91</h>
     </coordinates>
-    <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;760.0</additional_attributes>
+    <panel_attributes>Note &lt; HGAction &gt;
+bg=blue
+타겟C = {TextView, ScrollView, View }
+타겟D = {"HIGHLIGHT", "FOCUS", "POINTER" }</panel_attributes>
+    <additional_attributes/>
   </element>
   <element>
-    <id>Relation</id>
+    <id>UMLClass</id>
     <coordinates>
-      <x>1062</x>
-      <y>171</y>
-      <w>27</w>
-      <h>702</h>
+      <x>598</x>
+      <y>585</y>
+      <w>208</w>
+      <h>182</h>
     </coordinates>
-    <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;760.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLFrame</id>
-    <coordinates>
-      <x>324</x>
-      <y>108</y>
-      <w>1008</w>
-      <h>774</h>
-    </coordinates>
-    <panel_attributes>interaction frame</panel_attributes>
+    <panel_attributes>Target
+bg=green
+tid : List &lt; Integer &gt;
+teven : String
+tstatus : boolean</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1233</x>
-      <y>171</y>
-      <w>27</w>
-      <h>702</h>
+      <x>533</x>
+      <y>429</y>
+      <w>195</w>
+      <h>182</h>
     </coordinates>
-    <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;760.0</additional_attributes>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>130.0;120.0;130.0;80.0;10.0;80.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>689</x>
+      <y>429</y>
+      <w>221</w>
+      <h>182</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;120.0;10.0;80.0;150.0;80.0;150.0;10.0</additional_attributes>
   </element>
 </diagram>

@@ -10,10 +10,11 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 class HGAction {
-    enum ACTION {HIGHLIGHT, FOCUS, POINTER}
+    enum ACT_TYPE {HIGHLIGHT, FOCUS, POINTER}
     private int tid;
     private String aname;
     private boolean actionswitch = false;
+
     public HGAction() {};
     public HGAction(int _dstname, String _action) {
         this.tid = _dstname;
