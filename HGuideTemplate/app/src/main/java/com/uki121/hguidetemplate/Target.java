@@ -3,37 +3,33 @@ package com.uki121.hguidetemplate;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
-class TargetNode {
-    int id;
-    boolean status = false;
-    public TargetNode(){};
-    public TargetNode(int _id, boolean _status) {this.id = _id; this.status = _status;}
-    public TargetNode(int _id) { this.id = _id;}
-    public boolean getStatus() {return this.status;}
-    public int getId() { return this.id;}
-}
 
 public class Target {
-    private List < TargetNode > targetnodes;
+    private HashMap < Integer, Boolean > targetnodes;
     //private String tname;
     private String tevent;
 
     public Target(){}
     public Target(List < Integer > _tid, String _event) {
-        //1. Conversion 'Integer' to 'TargetNode'
-        List < TargetNode > s = new ArrayList<>();
         for (int i = 0; i < _tid.size(); ++i) {
-            s.add(new TargetNode(_tid.get(i)));
+            if (targetnodes.containsKey(_tid.get(i))) {
+                targetnodes.put(_tid.get(i), false);
+            }
         }
-        this.targetnodes = s;
         this.tevent = _event;
     }
     public String getEvent() { return this.tevent;}
-    public void setStatus(boolean _status) { this.tstatus = _status;}
-    public boolean getStatus(int _tid) {
-        r
+    public void setStatus(int _tid, boolean _status) {
+        if (targetnodes.containsKey(_tid)) {
+            targetnodes.put(_tid, _status);
+        } else {
+            Log.e("Target add", "There is no element(" + _tid + ").");
+        }
     }
-    public List < TargetNode > getElement() { return this.targetnodes;}
+    public boolean getStatus(int _tid) { return targetnodes.get(_tid);}
+    public Set< Integer > getElement() { return this.targetnodes.keySet();}
 }

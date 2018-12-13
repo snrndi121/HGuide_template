@@ -13,6 +13,7 @@ public class HGIndicator {
 
     public HGIndicator(View _baseview){ this.baseview = _baseview;};
     public HGIndicator Trigger(String _trigname, List< Integer > _srcid, String _trigtype) {
+        //todo : 상태 체크를 먼저하고 Target을 정하도록 하는 것이 훨씬 나을 것임.
         //1.current trigger confirm
         this.baseid = _trigname;
         //2.trigger constructor
@@ -27,12 +28,10 @@ public class HGIndicator {
     }
     //
     public HGIndicator Action(List< Integer > _dstid, String _eventtype) {
-        if (actions == null) {
-            actions = new HGAction(_dstid, _eventtype);
-        }
+
         return this;
     }
     public void Commit() {
-        actions.commit(baseview, getStatus());
+        //triggers로부터 status가 true인 녀석들만 확인해서 actions의 commit 호출하면 될것
     }
 }
