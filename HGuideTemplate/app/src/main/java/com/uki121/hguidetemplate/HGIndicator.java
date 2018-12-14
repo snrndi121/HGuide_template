@@ -11,7 +11,13 @@ public class HGIndicator {
     private String baseid;
     private View baseview;
 
-    public HGIndicator(View _baseview){ this.baseview = _baseview;};
+    public HGIndicator(View _baseview){
+        this.triggers = new HGTrigger();
+        this.actions = new HGAction();
+        this.baseview = _baseview;
+    };
+    /*
+    ver1.0
     public HGIndicator Trigger(String _trigname, List< Integer > _srcid, String _trigtype) {
         //todo : 상태 체크를 먼저하고 Target을 정하도록 하는 것이 훨씬 나을 것임.
         //1.current trigger confirm
@@ -24,6 +30,16 @@ public class HGIndicator {
         }
         //3.check its status
         triggers.checkStatus(_trigname, _trigtype, baseview);
+        return this;
+    }
+    *//*
+    ** Trigger("Trigger_custom_name", "source_targets_list", "Trigger_event")
+    */
+    public HGIndicator Trigger(String _trigname, List < Integer > _srcid, String _trigtype) {
+        //1. check the state of source_target_list
+        Target new_source = triggers.checkStatus(_trigtype, _srcid, baseview);
+        //2. Make class HGTrigger which have Target made above.
+        triggers.add(_trigname, new_source);
         return this;
     }
     //

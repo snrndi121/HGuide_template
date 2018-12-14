@@ -44,6 +44,9 @@ public class FragmentScroll extends Fragment {
         textViewTos2 = (TextView) view.findViewById(R.id.content_tos2);
         textViewTos3 = (TextView) view.findViewById(R.id.content_tos3);
 
+        //HGI
+        final HGIndicator hgIndicator = new HGIndicator(view);
+        //
         List <String> tosList = Arrays.asList(getResources().getStringArray(R.array.tos));
         textViewTos1.setText(tosList.get(0));
         textViewTos2.setText(tosList.get(1));
@@ -67,6 +70,7 @@ public class FragmentScroll extends Fragment {
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 //todo : refacetor is needed
                 String msg = " Please, check all the agreements ";
                 int checkboxFlag = 0;
@@ -83,19 +87,22 @@ public class FragmentScroll extends Fragment {
                     //todo : make a class for TextView and CheckBox
                     TextView[] target = {textViewTos1, textViewTos2, textViewTos3};
                     CheckBox[] target_box = {checkTos1, checkTos2, checkTos3};
+                    hgIndicator.Trigger("confirm_checkbox", target_box, "All_check");
                     //operation_highlight
-                    for (int i = 0; i < target.length; ++i) {
-                        //highlight
-                        if (!target_box[i].isChecked()) {
-                            /* todo : final process
+                    /*{
+                        for (int i = 0; i < target.length; ++i) {
+                            //highlight
+                            if (!target_box[i].isChecked()) {
+                            // todo : final process
                             new HGIndicator().use("HIGHLIGHT")
                                     .rules()
                                     .target()
                                     .commit();
-                            */
-                            manageBlinkEffect(target[i]);
+
+                                manageBlinkEffect(target[i]);
+                            }
                         }
-                    }
+                    }*/
                     //operation_focusing
                     //todo : it is needed to define prority.
                     //Move tos1

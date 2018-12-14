@@ -1,5 +1,6 @@
 package com.uki121.hguidetemplate;
 
+import android.support.annotation.StringDef;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -12,7 +13,7 @@ import java.util.Set;
 
 class HGTrigger {
     enum TRIG_TYPE{Except, Empty_text, All_check, Scroll_bottom, Scroll_up};
-    private HashMap< String, Target > targets;
+    private HashMap < String, Target > targets;//< Trigger_name, Source_views >
 
     interface setCustom {
         boolean status_check(String[] _args);
@@ -22,6 +23,8 @@ class HGTrigger {
         //statuc check_first -> target에 넣기
         targets.put(_trigname, new Target(_src, _trigtype));
     }
+    /*
+    //ver1.0
     public void checkStatus(String _trigname, String _trigtype, View view) {
         Target t = targets.get(_trigname);
         Iterator< Integer > tid_iterator = t.getElement().iterator();
@@ -55,24 +58,41 @@ class HGTrigger {
             //
         }
     }
-    public void setStatusArg(String _triName, String ... args) {
-
-    }
-    /*
-    private void statusCheck(View[]_views) {
-        //todo : set status algorithm
-        if ( )
-        if (_views[0].getClass().getName().equalsIgnoreCase("android.widget.CheckBox")) {
-
-            this.tstatus = true;
-        } else if (_views[0].getClass().getName().equalsIgnoreCase("android.widget.EditText")) {
-            this.tstatus = true;
-        } else if (_views[0].getClass().getName().equalsIgnoreCase("android.widget.ScrollView")) {
-            this.tstatus = true;
-        }
-    }
     */
-    public void add(String _trigname, List< Integer > _srcid, String _triactions) { targets.put(_trigname, new Target(_srcid, _triactions));}
-    public Target find(String _trigname) {return targets.get(_trigname);}
+    public static Target checkStatus(String _trig_type, List < Integer > tid, View view) {
+        Iterator < Integer > tid_iterator = tid.iterator();
+        //1.switch
+        if (_trig_type.equalsIgnoreCase("Except")) {
+            //
+        } else if (_trig_type.equalsIgnoreCase("Empty_text")) {
+            //
+        } else if (_trig_type.equalsIgnoreCase("All_check")) {
+            //1. View initializing
+            int index = 0, tsize = tid.size();
+            CheckBox[] child_views = new CheckBox[tsize];
+            while(tid_iterator.hasNext())    {
+                child_views[index++] = view.findViewById(tid_iterator.next());
+            }
+            //2. Check status
+            Target checked_tar = new Target(_trig_type);
+            for (int i = 0; i < tsize; ++i) {
+                boolean state = child_views[i].isChecked();
+                checked_tar.setStatus(tid.get(i), state);
+            }
+            return checked_tar;
+
+        } else if (_trig_type.equalsIgnoreCase("Scroll_bottom")) {
+            //
+        } else if (_trig_type.equalsIgnoreCase("Scroll_up")) {
+            //
+        }
+        return null;
+    }
+    public void setStatusArg(String _triName, String ... args) {
+            //todo;
+    }
+    public void add(String _trigname, List< Integer > _srcid, String _trigtype) { targets.put(_trigname, new Target(_srcid, _trigtype));}
+    public void add(String _trigname, Target _src) { targets.put(_trigname, _src);}
+    public boolean find(String _trigname) {return targets.containsKey(_trigname);}
     public Target getStatus(String _trigname) {return targets.get(_trigname);}
 }
