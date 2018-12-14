@@ -8,7 +8,6 @@ public class HGIndicator {
     //A에 B가 발생하면 C에 D를 해라.
     private HGTrigger triggers;
     private HGAction actions;
-    private String baseid;
     private View baseview;
 
     public HGIndicator(View _baseview){

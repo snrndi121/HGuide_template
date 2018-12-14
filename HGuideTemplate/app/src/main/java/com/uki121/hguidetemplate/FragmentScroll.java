@@ -4,6 +4,7 @@ import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -74,21 +75,26 @@ public class FragmentScroll extends Fragment {
                 //todo : refacetor is needed
                 String msg = " Please, check all the agreements ";
                 int checkboxFlag = 0;
-                checkboxFlag = checkTos1.isChecked()? checkboxFlag + 1 : checkboxFlag;
-                checkboxFlag = checkTos2.isChecked()? checkboxFlag + 2 : checkboxFlag;
-                checkboxFlag = checkTos3.isChecked()? checkboxFlag + 4 : checkboxFlag;
+                checkboxFlag = checkTos1.isChecked() ? checkboxFlag + 1 : checkboxFlag;
+                checkboxFlag = checkTos2.isChecked() ? checkboxFlag + 2 : checkboxFlag;
+                checkboxFlag = checkTos3.isChecked() ? checkboxFlag + 4 : checkboxFlag;
                 //check whether checkboxes are checked all
                 if (checkTos1.isChecked() && checkTos2.isChecked() && checkTos3.isChecked()) {
                     msg = "Success! ";
-                }
-                else {
+                } else {
                     //find the point where to hight and move
-                    //todo : make a class for pointer which has operations, manageBlinkEffect(), scrollToView(...);
-                    //todo : make a class for TextView and CheckBox
-                    TextView[] target = {textViewTos1, textViewTos2, textViewTos3};
-                    CheckBox[] target_box = {checkTos1, checkTos2, checkTos3};
-                    hgIndicator.Trigger("confirm_checkbox", target_box, "All_check");
                     //operation_highlight
+                    //part1. Set Trigger(checkbox) - Action(HIGHLIGHT)
+                    //CheckBox[] target_box = {checkTos1, checkTos2, checkTos3};
+                    /* 새로운 코딩방식*/
+                    List<Integer> srcview_id = Arrays.asList(R.id.check_tos1, R.id.check_tos2, R.id.check_tos3);
+                    hgIndicator.Trigger("confirm_checkbox", srcview_id, "All_check");
+                    //next
+                    //hgIndicator.Action("confirm_checkbox", dstview_id, "HIGHTLIGHT");
+                    //hgIndicator.Commit();
+                    //or
+                    //  .Action("confirm_checkbox", dstview_id, "HIGHTLIGHT")
+                    //  .Commit();
                     /*{
                         for (int i = 0; i < target.length; ++i) {
                             //highlight
@@ -103,7 +109,10 @@ public class FragmentScroll extends Fragment {
                             }
                         }
                     }*/
-                    //operation_focusing
+                    //
+                    //part2. Set Trigger(scrollview) - Action(FOCUS)
+                    /*
+                    TextView[] target = {textViewTos1, textViewTos2, textViewTos3};
                     //todo : it is needed to define prority.
                     //Move tos1
                     if (checkboxFlag ==2 || checkboxFlag == 4 || checkboxFlag == 6) {
@@ -120,8 +129,10 @@ public class FragmentScroll extends Fragment {
                         mcontext, "(" + checkboxFlag + ")" + msg,
                         Toast.LENGTH_SHORT
                 ).show();
-            }
+            */
+                }
 
+            }
         });
         mscrollview = (ScrollView) view.findViewById(R.id.container_scroll);
         mcontext = getActivity();

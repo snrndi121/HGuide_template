@@ -1,15 +1,11 @@
 package com.uki121.hguidetemplate;
 
-import android.support.annotation.StringDef;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.TextView;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 class HGTrigger {
     enum TRIG_TYPE{Except, Empty_text, All_check, Scroll_bottom, Scroll_up};
