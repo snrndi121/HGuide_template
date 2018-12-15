@@ -11,7 +11,7 @@ public class HGIndicator {
     //A?�� B��?? 발생?����?? C?�� D��?? ?��?��.
     private HGTrigger triggers;
     private HGAction actions;
-    private List < Pair < String, Integer > > triggers_count;
+    private List < Pair < String, Integer > > triggers_count;//todo
     private boolean trigger_switch = false;
     private String temp_trigger = "no trigger";
     private View baseview;

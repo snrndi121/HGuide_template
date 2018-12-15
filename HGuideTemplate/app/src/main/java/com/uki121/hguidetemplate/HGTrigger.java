@@ -14,7 +14,9 @@ class HGTrigger {
     interface setCustom {
         boolean status_check(String[] _args);
     }
-    public HGTrigger(){};
+    public HGTrigger(){
+        targets = new HashMap<>();
+    };
     public HGTrigger(String _trigname, List < Integer > _src, String _trigtype) {
         //statuc check_first -> target에 넣기
         targets.put(_trigname, new Target(_src, _trigtype));

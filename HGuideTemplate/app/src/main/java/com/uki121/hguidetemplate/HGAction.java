@@ -39,7 +39,9 @@ class HGAction {
         protected int getLoc() { return this.action_point;}
     };
     private HashMap<Integer,  Action > mActions;
-    public HGAction() {};
+    public HGAction() {
+        mActions = new HashMap<>();
+    };
     public void commit(View _main, Target _src) {
         //null check
         if (_main != null || _src != null) {
