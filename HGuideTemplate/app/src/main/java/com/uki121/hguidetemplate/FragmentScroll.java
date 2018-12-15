@@ -88,28 +88,10 @@ public class FragmentScroll extends Fragment {
                     //CheckBox[] target_box = {checkTos1, checkTos2, checkTos3};
                     /* 새로운 코딩방식*/
                     List<Integer> srcview_id = Arrays.asList(R.id.check_tos1, R.id.check_tos2, R.id.check_tos3);
-                    hgIndicator.Trigger("confirm_checkbox", srcview_id, "All_check");
-                    //next
-                    //hgIndicator.Action("confirm_checkbox", dstview_id, "HIGHTLIGHT");
-                    //hgIndicator.Commit();
-                    //or
-                    //  .Action("confirm_checkbox", dstview_id, "HIGHTLIGHT")
-                    //  .Commit();
-                    /*{
-                        for (int i = 0; i < target.length; ++i) {
-                            //highlight
-                            if (!target_box[i].isChecked()) {
-                            // todo : final process
-                            new HGIndicator().use("HIGHLIGHT")
-                                    .rules()
-                                    .target()
-                                    .commit();
-
-                                manageBlinkEffect(target[i]);
-                            }
-                        }
-                    }*/
-                    //
+                    List<Integer> dstview_id = Arrays.asList(R.id.content_tos1, R.id.content_tos2, R.id.content_tos3);
+                    hgIndicator.Trigger("confirm_checkbox", srcview_id, "All_check")
+                                .Action(dstview_id, "HIGHLIGHT")
+                                .Commit();
                     //part2. Set Trigger(scrollview) - Action(FOCUS)
                     /*
                     TextView[] target = {textViewTos1, textViewTos2, textViewTos3};

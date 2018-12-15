@@ -90,5 +90,6 @@ class HGTrigger {
     public void add(String _trigname, List< Integer > _srcid, String _trigtype) { targets.put(_trigname, new Target(_srcid, _trigtype));}
     public void add(String _trigname, Target _src) { targets.put(_trigname, _src);}
     public boolean find(String _trigname) {return targets.containsKey(_trigname);}
-    public Target getStatus(String _trigname) {return targets.get(_trigname);}
+    public boolean getStatusAll(String _trigname) { return this.targets.get(_trigname).getStatusAll();}
+    public Target getTarget(String _trigname) {return targets.get(_trigname);}
 }

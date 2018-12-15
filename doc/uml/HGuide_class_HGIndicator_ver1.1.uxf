@@ -4,45 +4,59 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>663</x>
-      <y>78</y>
-      <w>130</w>
-      <h>39</h>
+      <x>260</x>
+      <y>39</y>
+      <w>533</w>
+      <h>169</h>
     </coordinates>
     <panel_attributes>HGIndicator
-bg=red</panel_attributes>
+bg=red
+-
+- triggers : HGTrigger
+- actions : HGAction
+- trigger_set : Pair &lt; String, Integer &gt;
+- temp_trigger : String 
+- trigger_switch : boolean
+- baseview : View</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>416</x>
-      <y>260</y>
-      <w>247</w>
+      <x>260</x>
+      <y>351</y>
+      <w>364</w>
       <h>182</h>
     </coordinates>
     <panel_attributes>HGTrigger
 bg=orange
-targets : List &lt; Target &gt;</panel_attributes>
+--
+- targets : HashMap &lt; String, Target &gt;
+</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>819</x>
-      <y>260</y>
-      <w>130</w>
+      <x>780</x>
+      <y>351</y>
+      <w>507</w>
       <h>182</h>
     </coordinates>
     <panel_attributes>HGAction
-bg=orange</panel_attributes>
+bg=orange
+--
+- targets : HashMap &lt;Integer, Action &gt;
+- action_switch : boolean
+
+</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>533</x>
-      <y>104</y>
+      <x>494</x>
+      <y>195</y>
       <w>221</w>
       <h>182</h>
     </coordinates>
@@ -52,8 +66,8 @@ bg=orange</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>715</x>
-      <y>104</y>
+      <x>676</x>
+      <y>195</y>
       <w>195</w>
       <h>182</h>
     </coordinates>
@@ -63,8 +77,8 @@ bg=orange</panel_attributes>
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>832</x>
-      <y>52</y>
+      <x>806</x>
+      <y>78</y>
       <w>468</w>
       <h>91</h>
     </coordinates>
@@ -76,8 +90,8 @@ bg=blue
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>39</x>
-      <y>247</y>
+      <x>0</x>
+      <y>338</y>
       <w>416</w>
       <h>91</h>
     </coordinates>
@@ -90,8 +104,8 @@ bg=blue
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>897</x>
-      <y>169</y>
+      <x>858</x>
+      <y>260</y>
       <w>429</w>
       <h>91</h>
     </coordinates>
@@ -104,38 +118,53 @@ bg=blue
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>598</x>
-      <y>585</y>
-      <w>208</w>
-      <h>182</h>
+      <x>143</x>
+      <y>702</y>
+      <w>585</w>
+      <h>169</h>
     </coordinates>
     <panel_attributes>Target
 bg=green
-tid : List &lt; Integer &gt;
-teven : String
-tstatus : boolean</panel_attributes>
+--
+targetnodes : HashMap &lt; Integer, Boolean &gt;
+event_type : String, (event_type = {trigger_type, action_type}</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>533</x>
-      <y>429</y>
-      <w>195</w>
-      <h>182</h>
+      <x>416</x>
+      <y>520</y>
+      <w>39</w>
+      <h>208</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>130.0;120.0;130.0;80.0;10.0;80.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;140.0;10.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>819</x>
+      <y>702</y>
+      <w>416</w>
+      <h>169</h>
+    </coordinates>
+    <panel_attributes>Action
+bg=green
+--
+- target : List &lt; Target &gt;
+- trigger_hash_val : Integer (or String)</panel_attributes>
+    <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>689</x>
-      <y>429</y>
-      <w>221</w>
-      <h>182</h>
+      <x>1027</x>
+      <y>520</y>
+      <w>39</w>
+      <h>208</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;120.0;10.0;80.0;150.0;80.0;150.0;10.0</additional_attributes>
+    <additional_attributes>10.0;140.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>
