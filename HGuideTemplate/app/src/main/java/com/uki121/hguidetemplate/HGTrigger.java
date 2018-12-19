@@ -18,7 +18,7 @@ class HGTrigger {
         targets = new HashMap<>();
     };
     public HGTrigger(String _trigname, List < Integer > _src, String _trigtype) {
-        //statuc check_first -> target에 넣기
+        targets = new HashMap<>();
         targets.put(_trigname, new Target(_src, _trigtype));
     }
     /*
@@ -65,6 +65,7 @@ class HGTrigger {
         } else if (_trig_type.equalsIgnoreCase("Empty_text")) {
             //
         } else if (_trig_type.equalsIgnoreCase("All_check")) {
+            Log.d("HGT","method(chekcstatus) in on 'All_check'");
             //1. View initializing
             int index = 0, tsize = tid.size();
             CheckBox[] child_views = new CheckBox[tsize];
@@ -84,6 +85,7 @@ class HGTrigger {
         } else if (_trig_type.equalsIgnoreCase("Scroll_up")) {
             //
         }
+        Log.d("HGT","method(chekcstatus) has an unvalid trigger type.");
         return null;
     }
     public void setStatusArg(String _triName, String ... args) {
@@ -91,7 +93,18 @@ class HGTrigger {
     }
     public void add(String _trigname, List< Integer > _srcid, String _trigtype) { targets.put(_trigname, new Target(_srcid, _trigtype));}
     public void add(String _trigname, Target _src) { targets.put(_trigname, _src);}
+    public void replace(String _trigname, Target _src) { targets.put(_trigname, _src);}
     public boolean find(String _trigname) {return targets.containsKey(_trigname);}
     public boolean getStatusAll(String _trigname) { return this.targets.get(_trigname).getStatusAll();}
-    public Target getTarget(String _trigname) {return targets.get(_trigname);}
+    public Target getTarget(String _trigname) {
+        //todo
+        Log.d("HGT", "getTarget()");
+        Target t = targets.get(_trigname);
+        if (t != null) {
+            Log.d("- Target", "has elements.");
+            return targets.get(_trigname);
+        }
+        Log.d("- Target", "is null.");
+        return null;
+    }
 }

@@ -4,7 +4,6 @@ import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,15 +15,12 @@ import android.widget.CheckBox;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class FragmentScroll extends Fragment {
     private ScrollView mscrollview;
     private TextView textViewTos1,textViewTos2,textViewTos3;
-    private CheckBox checkTos2;
     private Button btnConfirm;
     private Context mcontext;
 
@@ -86,6 +82,7 @@ public class FragmentScroll extends Fragment {
                     //operation_highlight
                     //part1. Set Trigger(checkbox) - Action(HIGHLIGHT)
                     //CheckBox[] target_box = {checkTos1, checkTos2, checkTos3};
+
                     /* 새로운 코딩방식*/
                     List<Integer> srcview_id = Arrays.asList(R.id.check_tos1, R.id.check_tos2, R.id.check_tos3);
                     List<Integer> dstview_id = Arrays.asList(R.id.content_tos1, R.id.content_tos2, R.id.content_tos3);

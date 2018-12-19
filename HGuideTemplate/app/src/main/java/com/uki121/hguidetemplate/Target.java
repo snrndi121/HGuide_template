@@ -1,9 +1,6 @@
 package com.uki121.hguidetemplate;
 
 import android.util.Log;
-import android.view.View;
-
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -16,12 +13,21 @@ public class Target {
     private String target_name = "no name";
     private String event_type;//event_type = {trigger_type, action_type}
 
-    public Target(){}
-    public Target(String _ttype) { this.event_type = _ttype;}
+    public Target() {
+        targetnodes = new HashMap<>();
+    }
+    public Target(String _eventtype) {
+        Log.d("- Target", "construction");
+        targetnodes = new HashMap<>();
+        this.event_type = _eventtype;
+    }
     public Target(List < Integer > _tid, String _event) {
+        Log.d("- Target-constructor", "success");
+        targetnodes = new HashMap<>();
         for (int i = 0; i < _tid.size(); ++i) {
             if (targetnodes.containsKey(_tid.get(i))) {
                 targetnodes.put(_tid.get(i), false);
+                Log.d("- Target-elements", "id :" + _tid.get(i));
             }
         }
         this.event_type = _event;
@@ -32,7 +38,7 @@ public class Target {
             for (int i = 0; i < _tid.size(); ++i) {
                 targetnodes.put(_tid.get(i), _tstate.get(i));
             }
-        } else { Log.e("Target - constructor", "(2)");}
+        } else { Log.d("- Target-constructor", "success");}
     }
     public void setName(String _targetname) { this.target_name = _targetname;}
     public void setStatus(int _tid, boolean _status) {
