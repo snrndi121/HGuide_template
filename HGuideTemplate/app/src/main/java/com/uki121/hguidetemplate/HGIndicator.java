@@ -13,7 +13,7 @@ public class HGIndicator {
     private HGTrigger triggers;
     private HGAction actions;
     private List < Pair < String, Integer > > triggers_count;//todo
-    private boolean trigger_switch = true;
+    //private boolean trigger_switch = true;
     private String temp_trigger = "no trigger";
     private View baseview;
 
@@ -72,12 +72,13 @@ public class HGIndicator {
     //
     public HGIndicator Action(List< Integer > _dstid, String _eventtype) {
         //check trigger state
-        if (trigger_switch) {
+        try {
             Log.d("HGI","Action is on.");
             actions.add(_dstid, _eventtype, temp_trigger);
             return this;
+        } catch(Exception e) {
+            Log.e("HGI", e.getMessage());
         }
-        Log.d("HGIndicator", "trigger_switch is off now.");
         return null;
     }
     //todo
@@ -94,7 +95,7 @@ public class HGIndicator {
         if (baseview != null) {
             Log.d("HGI","method(Commit) has a 'baseview'.");
             actions.commit(baseview, triggers.getTarget(temp_trigger));
-            trigger_switch = false;
+            //trigger_switch = false;
         } else { //(2) else nothing
             Log.d("HGIndicator","method(Commit) has an error. main view is null.");
         }
