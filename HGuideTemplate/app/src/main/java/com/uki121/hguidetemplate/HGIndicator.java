@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class HGIndicator {
-    //A?�� B��?? 발생?����?? C?�� D��?? ?��?��.
     private HGTrigger triggers;
     private HGAction actions;
     private List < Pair < String, Integer > > triggers_count;//todo
@@ -41,14 +40,15 @@ public class HGIndicator {
     *//*
     ** Trigger("Trigger_custom_name", "source_targets_list", "Trigger_event")
     */
+    /* ver1.1
     public HGIndicator Trigger(String _trigname, List < Integer > _srcid, String _trigtype) {
         //check duplicated trig_name
         try {
+            //1. check the state of source_target_list
+            Target new_source = triggers.checkStatus(_trigtype, _srcid, baseview);
+            new_source.setName(_trigname);
             if (!triggers.find(_trigname)) {
                 Log.d("HGI", "Trigger is updated.");
-                //1. check the state of source_target_list
-                Target new_source = triggers.checkStatus(_trigtype, _srcid, baseview);
-                new_source.setName(_trigname);
                 //2. Make class HGTrigger which have Target made above.
                 triggers.add(_trigname, new_source);
                 //3. set temporary variables
@@ -57,8 +57,6 @@ public class HGIndicator {
             } else {
                 Log.d("HGI","method(Trigger) is already enrolled.");
                 //switch its state
-                Target new_source = triggers.checkStatus(_trigtype, _srcid, baseview);
-                new_source.setName(_trigname);
                 triggers.replace(_trigname, new_source);
                 Log.d("HGI","method(Trigger) has source state modify.");
                 return this;
@@ -68,36 +66,58 @@ public class HGIndicator {
             Log.e("HGI", e.getMessage());
         }
         return null;
+    }*/
+    public HGIndicator Trigger(String _trigname, List < Integer > _srcid, String _trigtype) {
+        //check duplicated trig_name
+        if (!triggers.find(_trigname)) {
+            Log.d("HGI", "Trigger is updated.");
+        } else {
+            Log.d("HGI","method(Trigger) is already enrolled.");
+            Log.d("HGI","method(Trigger) has source state modify.");
+        }
+        //1. check the state of source_target_list
+        Target new_source = triggers.checkStatus(_trigtype, _srcid, baseview);
+        new_source.setName(_trigname);
+        triggers.add(_trigname, new_source);
+        temp_trigger = _trigname;
+        return this;
     }
     //
-    public HGIndicator Action(List< Integer > _dstid, String _eventtype) {
+    public HGIndicator Action(List< Integer > _dstid, String _actiontype) {
         //check trigger state
-        try {
-            Log.d("HGI","Action is on.");
-            actions.add(_dstid, _eventtype, temp_trigger);
-            return this;
-        } catch(Exception e) {
-            Log.e("HGI", e.getMessage());
-        }
-        return null;
+        Log.d("HGI","Action is on.");
+        Log.d("HGI", "destination size : " + _dstid.size());
+        actions.add(_dstid, _actiontype, temp_trigger);
+        return this;
     }
     //todo
-    public HGIndicator AddAction(String _trigname, List < Integer > _dstid, String _eventtype) {
+    public HGIndicator AddAction(String _trigname, List < Integer > _dstid, String _actiontype) {
         //find trigger_name
         //(1) if it exists then, add
         //(2) else, no action occurs
         return null;
     }
+    /*
+    public HGIndicator AddAction(List < Integer > _dstid, String _actiontype) {
+        Log.d("HGI","AddAction is on.");
+        Log.d("HGI", "destination size : " + _dstid.size());
+        actions.add(_dstid, _actiontype, temp_trigger);
+        return this;
+    }*/
+    public HGIndicator AddAction(List < Integer > _dstid, String _actiontype) {
+        return Action(_dstid, _actiontype);
+    }
     public void Commit() {
         //todo : may be this is the bug point
         //get the specific trigger's state
         //(1) if true, then Commit
-        if (baseview != null) {
-            Log.d("HGI","method(Commit) has a 'baseview'.");
+        try {
+            if (baseview == null) { throw new Exception();}
+            Log.d("HGI","method(Commit) is on.");
             actions.commit(baseview, triggers.getTarget(temp_trigger));
             //trigger_switch = false;
-        } else { //(2) else nothing
-            Log.d("HGIndicator","method(Commit) has an error. main view is null.");
+        } catch (Exception e) { //(2) else nothing
+            Log.e("HGI-commit","method(Commit) has an error. main view is null.");
         }
         return;
     }

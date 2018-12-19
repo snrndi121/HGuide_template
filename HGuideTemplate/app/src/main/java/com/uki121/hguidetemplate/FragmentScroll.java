@@ -86,8 +86,10 @@ public class FragmentScroll extends Fragment {
                     /* 새로운 코딩방식*/
                     List<Integer> srcview_id = Arrays.asList(R.id.check_tos1, R.id.check_tos2, R.id.check_tos3);
                     List<Integer> dstview_id = Arrays.asList(R.id.content_tos1, R.id.content_tos2, R.id.content_tos3);
+                    List<Integer> dstview_id2 = Arrays.asList(R.id.container_scroll);
                     hgIndicator.Trigger("confirm_checkbox", srcview_id, "All_check")
                                 .Action(dstview_id, "HIGHLIGHT")
+                                .AddAction(dstview_id2, "FOCUS")
                                 .Commit();
                     //part2. Set Trigger(scrollview) - Action(FOCUS)
                     /*
