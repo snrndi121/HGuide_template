@@ -56,7 +56,7 @@ class HGAction {
             return ;
         }
         Log.d("HGA","method(commit) is on");
-        //1. 실행할 action 리스트 찾아와야함.(Find which actinos are executed)
+        //1. ?��?��?�� action 리스?�� 찾아????��?��.(Find which actinos are executed)
         int trigger_id = _trigger.getName().hashCode();
         Log.d("HGA","Trigger name : " + _trigger.getName() + ", hash : " + trigger_id);
         Iterator <Target> it_actions = getUndoAction(trigger_id).iterator();
@@ -64,9 +64,9 @@ class HGAction {
             Log.d("HGA","source has no actions undo.");
             return;
         }
-        //2. action 실행
+        //2. action ?��?��
         while(it_actions.hasNext()) {
-            //3. source의 조건들을 확인해서 실행할 장소를 고른다.
+            //3. source?�� 조건?��?�� ?��?��?��?�� ?��?��?�� ?��?���? 고른?��.
             //(They will consider about where to be executed)
             Iterator < Integer > src_it = _trigger.getElement().iterator();
             //String act_type = dst_it.next().getType();
@@ -76,7 +76,7 @@ class HGAction {
                 //The state of Target view is true, then execute
                 int src_item = src_it.next();
                 if (!_trigger.getStatus(src_item)) {
-                    act(_mainiview, action, src_item);//소스의 상태를 확인하고 실행한다.
+                    act(_mainiview, action, src_item);//?��?��?�� ?��?���? ?��?��?���? ?��?��?��?��.
                 }
             }
         }
@@ -101,9 +101,9 @@ class HGAction {
                 throw new Exception();
             }
             //2. execute actions
-            List < Integer > source_id = new ArrayList<>(_trigger.getElement()); //get stat of sources
+            List < Integer > source_target = new ArrayList<>(_trigger.getElement()); //get stat of sources
             while (it_actions.hasNext()) {
-
+                
             }
         } catch(Exception e)
         {

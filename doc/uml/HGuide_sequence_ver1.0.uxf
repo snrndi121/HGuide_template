@@ -1,0 +1,641 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>17</zoom_level>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>0</x>
+      <y>17</y>
+      <w>238</w>
+      <h>51</h>
+    </coordinates>
+    <panel_attributes>_:FragmentScroll
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>102</x>
+      <y>153</y>
+      <w>34</w>
+      <h>1479</h>
+    </coordinates>
+    <panel_attributes>
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>102</x>
+      <y>51</y>
+      <w>51</w>
+      <h>136</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>391</x>
+      <y>17</y>
+      <w>238</w>
+      <h>51</h>
+    </coordinates>
+    <panel_attributes>_:HGIndicator
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>493</x>
+      <y>51</y>
+      <w>51</w>
+      <h>136</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>493</x>
+      <y>153</y>
+      <w>34</w>
+      <h>85</h>
+    </coordinates>
+    <panel_attributes>
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>119</x>
+      <y>119</y>
+      <w>408</w>
+      <h>68</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+1.view를 가지는 HGIndicator 선언 </panel_attributes>
+    <additional_attributes>10.0;20.0;220.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>119</x>
+      <y>204</y>
+      <w>408</w>
+      <h>136</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+HGTrigger, HGAction 클래스를 
+가지는 멤버 변수 생성
+
+</panel_attributes>
+    <additional_attributes>10.0;20.0;220.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>493</x>
+      <y>221</y>
+      <w>51</w>
+      <h>238</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>119</x>
+      <y>391</y>
+      <w>408</w>
+      <h>153</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+2.HGIndicator.Trigger
+("트리거 이름",
+"소스 뷰 이름",
+"트리거 타입")
+호출</panel_attributes>
+    <additional_attributes>10.0;20.0;220.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>493</x>
+      <y>425</y>
+      <w>34</w>
+      <h>221</h>
+    </coordinates>
+    <panel_attributes>
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>510</x>
+      <y>391</y>
+      <w>1088</w>
+      <h>68</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+2.1. 현재 트리거 상태 판단하고 트리거 재생성 (checkStatus)
+//HGTrigger.checkStatus(
+//"trigget_type",
+//"sources_list",
+//"main_view"
+//) </panel_attributes>
+    <additional_attributes>620.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>1462</x>
+      <y>0</y>
+      <w>238</w>
+      <h>51</h>
+    </coordinates>
+    <panel_attributes>_:Target
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1564</x>
+      <y>34</y>
+      <w>51</w>
+      <h>425</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;230.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>1564</x>
+      <y>425</y>
+      <w>34</w>
+      <h>102</h>
+    </coordinates>
+    <panel_attributes>
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>510</x>
+      <y>476</y>
+      <w>1088</w>
+      <h>68</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+2.2  트리거 이름 재설정 </panel_attributes>
+    <additional_attributes>620.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>510</x>
+      <y>561</y>
+      <w>1411</w>
+      <h>68</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+2.3 현재 HGTrigger 멤버에 트리거추가/교체</panel_attributes>
+    <additional_attributes>810.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1564</x>
+      <y>510</y>
+      <w>51</w>
+      <h>1156</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;660.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>119</x>
+      <y>612</y>
+      <w>408</w>
+      <h>68</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+</panel_attributes>
+    <additional_attributes>10.0;20.0;220.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>493</x>
+      <y>629</y>
+      <w>51</w>
+      <h>136</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>119</x>
+      <y>697</y>
+      <w>408</w>
+      <h>136</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+3.HGIndicator.Action
+("목적 뷰 이름"
+"액션 타입")
+호출</panel_attributes>
+    <additional_attributes>10.0;20.0;220.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>493</x>
+      <y>731</y>
+      <w>34</w>
+      <h>646</h>
+    </coordinates>
+    <panel_attributes>
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>918</x>
+      <y>663</y>
+      <w>238</w>
+      <h>51</h>
+    </coordinates>
+    <panel_attributes>_:HGAction
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1020</x>
+      <y>697</y>
+      <w>51</w>
+      <h>136</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>1020</x>
+      <y>799</y>
+      <w>34</w>
+      <h>544</h>
+    </coordinates>
+    <panel_attributes>
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>510</x>
+      <y>765</y>
+      <w>544</w>
+      <h>68</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+3.1 HGAction 멤버에 액션 추가(add)</panel_attributes>
+    <additional_attributes>10.0;20.0;300.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>986</x>
+      <y>884</y>
+      <w>527</w>
+      <h>323</h>
+    </coordinates>
+    <panel_attributes>alt
+--
+3.3 해시(트리거)값 존재 유무
+-.
+                                                               [1]
+
+
+
+-.
+                                                               [0]
+                                                               </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1037</x>
+      <y>799</y>
+      <w>510</w>
+      <h>85</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+3.2 트리거 이름 해시</panel_attributes>
+    <additional_attributes>10.0;10.0;160.0;10.0;160.0;30.0;10.0;30.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1037</x>
+      <y>969</y>
+      <w>493</w>
+      <h>119</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+3.4.1 새로운 액션 인스턴스 만들고 
+HGAction 멤버에 등록</panel_attributes>
+    <additional_attributes>10.0;50.0;60.0;50.0;60.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1037</x>
+      <y>1088</y>
+      <w>459</w>
+      <h>119</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+3.4.2 기존의 HGAction 
+액션 리스트에 새로운 액션 추가 </panel_attributes>
+    <additional_attributes>10.0;50.0;60.0;50.0;60.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>425</x>
+      <y>731</y>
+      <w>1139</w>
+      <h>663</h>
+    </coordinates>
+    <panel_attributes>optional</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>510</x>
+      <y>782</y>
+      <w>544</w>
+      <h>629</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+3.2 HGAction 멤버에 
+액션 추가(addaction)</panel_attributes>
+    <additional_attributes>10.0;350.0;70.0;350.0;70.0;10.0;300.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>493</x>
+      <y>1360</y>
+      <w>51</w>
+      <h>136</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1020</x>
+      <y>1326</y>
+      <w>51</w>
+      <h>374</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;200.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>119</x>
+      <y>1428</y>
+      <w>408</w>
+      <h>68</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+4.HGIndicator.Commit() 호출 </panel_attributes>
+    <additional_attributes>10.0;20.0;220.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>425</x>
+      <y>1462</y>
+      <w>544</w>
+      <h>153</h>
+    </coordinates>
+    <panel_attributes>alt
+--
+4.1 저장된 view null 체크
+-.
+                                                              [1]
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>493</x>
+      <y>1462</y>
+      <w>34</w>
+      <h>238</h>
+    </coordinates>
+    <panel_attributes>
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>510</x>
+      <y>1547</y>
+      <w>340</w>
+      <h>85</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+4.1.1 예외 처리</panel_attributes>
+    <additional_attributes>10.0;30.0;90.0;30.0;90.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>1020</x>
+      <y>1666</y>
+      <w>34</w>
+      <h>561</h>
+    </coordinates>
+    <panel_attributes>
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>510</x>
+      <y>1632</y>
+      <w>544</w>
+      <h>68</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+4.2 HGAtion.commit() 호출</panel_attributes>
+    <additional_attributes>10.0;20.0;300.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>969</x>
+      <y>1666</y>
+      <w>425</w>
+      <h>153</h>
+    </coordinates>
+    <panel_attributes>alt
+--
+4.3. main와 trigger 유효성 체크
+-.</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1037</x>
+      <y>1751</y>
+      <w>340</w>
+      <h>85</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+4.3.1 예외 처리</panel_attributes>
+    <additional_attributes>10.0;30.0;90.0;30.0;90.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1887</x>
+      <y>34</y>
+      <w>51</w>
+      <h>595</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;330.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>1819</x>
+      <y>0</y>
+      <w>170</w>
+      <h>51</h>
+    </coordinates>
+    <panel_attributes>_: Trigger
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>1887</x>
+      <y>595</y>
+      <w>34</w>
+      <h>68</h>
+    </coordinates>
+    <panel_attributes>
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1887</x>
+      <y>646</y>
+      <w>51</w>
+      <h>1088</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;620.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>1819</x>
+      <y>1700</y>
+      <w>170</w>
+      <h>51</h>
+    </coordinates>
+    <panel_attributes>_: Trigger
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1037</x>
+      <y>1836</y>
+      <w>442</w>
+      <h>136</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+4.4 현재 트리거에 연결된
+액션 할당</panel_attributes>
+    <additional_attributes>10.0;60.0;90.0;60.0;90.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>1054</x>
+      <y>1938</y>
+      <w>425</w>
+      <h>153</h>
+    </coordinates>
+    <panel_attributes>alt
+--
+4.5. 액션 유효성 체크
+-.</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1037</x>
+      <y>2023</y>
+      <w>340</w>
+      <h>85</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+4.5.1 예외 처리</panel_attributes>
+    <additional_attributes>10.0;30.0;90.0;30.0;90.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1037</x>
+      <y>2091</y>
+      <w>391</w>
+      <h>136</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+4.6 트리거에 연결된
+소스 아이디 할당</panel_attributes>
+    <additional_attributes>10.0;60.0;90.0;60.0;90.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>
