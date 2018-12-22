@@ -3,6 +3,8 @@ package com.uki121.hguidetemplate;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -58,16 +60,30 @@ class HGTrigger {
     }
     */
     public static Target checkStatus(String _trig_type, List < Integer > tid, View view) {
+        //1. View initializing
         Iterator < Integer > tid_iterator = tid.iterator();
+        int index = 0, tsize = tid.size();
         //1.switch
+        //어떤 프로세스 단계를 실행할 때 사용가능
         if (_trig_type.equalsIgnoreCase("Except")) {
-            //
+            Log.d("HGT","method(chekcstatus) in on 'Except'");
+
+
         } else if (_trig_type.equalsIgnoreCase("Empty_text")) {
-            //
+            Log.d("HGT","method(chekcstatus) in on 'Empty_text'");
+            EditText[] child_views = new EditText[tsize];
+            while(tid_iterator.hasNext())    {
+                child_views[index++] = view.findViewById(tid_iterator.next());
+            }
+            //2. Check status
+            Target checked_tar = new Target(_trig_type);
+            for (int i = 0; i < tsize; ++i) {
+                boolean state = child_views[i].getText().toString().isEmpty();
+                checked_tar.setStatus(tid.get(i), !state);
+            }
+            return checked_tar;
         } else if (_trig_type.equalsIgnoreCase("All_check")) {
             Log.d("HGT","method(chekcstatus) in on 'All_check'");
-            //1. View initializing
-            int index = 0, tsize = tid.size();
             CheckBox[] child_views = new CheckBox[tsize];
             while(tid_iterator.hasNext())    {
                 child_views[index++] = view.findViewById(tid_iterator.next());
@@ -81,19 +97,15 @@ class HGTrigger {
             return checked_tar;
 
         } else if (_trig_type.equalsIgnoreCase("Scroll_bottom")) {
-            //
+            //todo : usless
         } else if (_trig_type.equalsIgnoreCase("Scroll_up")) {
-            //
+            //todo : usless
         }
         Log.d("HGT","method(chekcstatus) has an unvalid trigger type.");
         return null;
     }
-    public void setStatusArg(String _triName, String ... args) {
-            //todo;
-    }
     public void add(String _trigname, List< Integer > _srcid, String _trigtype) { targets.put(_trigname, new Target(_srcid, _trigtype));}
     public void add(String _trigname, Target _src) { targets.put(_trigname, _src);}
-    public void replace(String _trigname, Target _src) { targets.put(_trigname, _src);}
     public boolean find(String _trigname) {return targets.containsKey(_trigname);}
     public boolean getStatusAll(String _trigname) { return this.targets.get(_trigname).getStatusAll();}
     public Target getTarget(String _trigname) {
