@@ -6,10 +6,13 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -19,7 +22,7 @@ import java.util.List;
 class HGAction {
     enum ACT_TYPE {HIGHLIGHT, FOCUS, POINTER}
     class Action {
-        private ArrayList < Target > targets;//todo : relation : trigger(1) - action(*)
+        private ArrayList < Target > targets;
         private int trigger_hash_val;
         private int action_point = 0;
         protected Action() {
@@ -83,27 +86,33 @@ class HGAction {
         return;
     }
     */
-    public void commit(View _mainiview, Target _trigger) {
+    //Execute actions matched their trigger on main view
+    //@_mainview : the main view from HGIndicator's 'baseview'
+    //@_trigger : a specific source's Target
+    public void commit(View _mainview, Target _trigger) {
         try {
-            //0. null check
-            if (_mainiview == null || _trigger == null) {
+            //0. 메인뷰와 트리거가 등록 안된 상태라면 예외발생(null check)
+            if (_mainview == null || _trigger == null) {
                 Log.e("HGA","There is no main view or sources.");
                 throw new Exception();
             }
             Log.d("HGA", "method(commit) is on");
 
-            //1. Find which actinos are executed
+            //1. 트리거 이름과 연관된 액션 리스트 불러옴(Find which actions are executed)
             int trigger_id = _trigger.getName().hashCode(); //get trigger id
             Log.d("HGA", "Trigger name : " + _trigger.getName() + ", hash : " + trigger_id);    //get action
-            Iterator<Target> it_actions = getUndoAction(trigger_id).iterator(); //get action by trigger id
-            if (!it_actions.hasNext()) {    //size check
+            Iterator<Target> action_target = getUndoAction(trigger_id).iterator(); //get action by trigger id
+            if (!action_target.hasNext()) {    //size check
                 Log.e("HGA", "source has no actions matched.");
                 throw new Exception();
             }
-            //2. execute actions
-            List < Integer > source_target = new ArrayList<>(_trigger.getElement()); //get stat of sources
-            while (it_actions.hasNext()) {
-                
+            //2. 트리거의 상태 불러 오기(execute actions by states of sources)
+            List < Boolean > source_target = new ArrayList<>(_trigger.getStatus()); //get stat of sources
+            /*todo*///Iterator <Integer> source_target = _trigger.getElement().iterator();
+            //3. 트리거 상태에 따라 액션 반응 시키기
+            while(action_target.hasNext()) {
+                Target action = action_target.next();
+                act(_mainview, action, source_target);
             }
         } catch(Exception e)
         {
@@ -111,27 +120,56 @@ class HGAction {
         }
         return;
     }
-    public void act(View _main, Target _action, int _child) {
+    //@_main : a main view of current views
+    //@_action : a 'Target' which has action_type and destination target
+    //@_child
+    public void act(View _main, Target _action, List <Boolean> _states) {
         Log.d("HGA","Method(act) is on.");
         try {
-            switch (_action.getType()) {
+            //dst
+            List < Integer > dst = new ArrayList<>(_action.getElement());
+            String _actiontype = _action.getType();
+            switch (_actiontype) {
                 case "HIGHLIGHT":
-                    manageBlinkEffect((TextView) _main.findViewById(_child));
+                    for (int i = 0; i < dst.size(); ++i) {
+                        if (!_states.get(i))
+                            manageBlinkEffect((TextView) _main.findViewById(dst.get(i)));
+                    }
                     Log.d("Action : ", "HIGHLIGHT");
                     break;
                 case "FOCUS":
+                    //find scrollview
+                    int id = 0; boolean scrl_found = false;
+                    LinearLayout root = (LinearLayout)_main;
+                    View[] children = new View[root.getChildCount()];
+                    for (id = 0; id < root.getChildCount(); ++id) {
+                        children[id] = (View) root.getChildAt(id);
+                        Log.i("Child-name", "" + children[id].getAccessibilityClassName());
+                        if (children[id].getAccessibilityClassName().equals("android.widget.ScrollView")) {
+                            scrl_found = true;
+                            break;
+                        }
+                    }
+                    if (!scrl_found) {
+                        Log.e("HGA-act", "There is no scrollview found");
+                        throw new Exception();
+                    }
+                    //focus
+                    for (int index = 0; index < dst.size(); ++index) {
+                        if (!_states.get(index))
+                            scrollToView(_main.findViewById(dst.get(index)), (ScrollView) children[id], 0);
+                            break;
+                    }
                     Log.d("Action : ", "FOCUS");
-                    int scroll_id = _action.getElement(0);
-                    Log.i("Action-id", "" + scroll_id);
-                    if (scroll_id != 0)
-                        scrollToView((CheckBox) _main.findViewById(_child), (ScrollView) _main.findViewById(scroll_id), 0);
-                    else throw new Exception();
+                    //scrollviwe 찾는 작업 필요함
+                    // scrollToView((CheckBox) _main.findViewById(_child), (ScrollView) _main.findViewById(scroll_id), 0);
                     break;
                 case "POINTER":
                     Log.d("Action : ", "POINTER");
                     break;
+                case "POPUP":
                 default:
-                    Log.d("Action : ", "There is no such action name(" + _action + ")");
+                    Log.d("Action : ", "There is no such action name(" + _actiontype + ")");
                     break;
             }
         } catch (Exception e) {

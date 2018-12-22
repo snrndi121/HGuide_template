@@ -1,5 +1,6 @@
 package com.uki121.hguidetemplate;
 
+import android.os.Message;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
@@ -72,8 +73,9 @@ public class HGIndicator {
         if (!triggers.find(_trigname)) {
             Log.d("HGI", "Trigger is updated.");
         } else {
-            Log.d("HGI","method(Trigger) is already enrolled.");
-            Log.d("HGI","method(Trigger) has source state modify.");
+            Log.d("HGI", "method(Trigger) is already enrolled.");
+            Log.d("HGI", "method(Trigger) has source state modify.");
+            //return null;
         }
         //1. check the state of source_target_list
         Target new_source = triggers.checkStatus(_trigtype, _srcid, baseview);
@@ -82,8 +84,8 @@ public class HGIndicator {
         temp_trigger = _trigname;
         return this;
     }
-    //
-    public HGIndicator Action(List< Integer > _dstid, String _actiontype) {
+    //@action_range :
+    public HGIndicator Action(List< Integer > _dstid, String _actiontype) {//, String action_range) {
         //check trigger state
         Log.d("HGI","Action is on.");
         Log.d("HGI", "destination size : " + _dstid.size());

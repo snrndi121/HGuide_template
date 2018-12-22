@@ -89,20 +89,20 @@ public class FragmentScroll extends Fragment {
                     List<Integer> dstview_id2 = Arrays.asList(R.id.container_scroll);
                     hgIndicator.Trigger("confirm_checkbox", srcview_id, "All_check")
                                 .Action(dstview_id, "HIGHLIGHT")
-                                .AddAction(dstview_id2, "FOCUS")
+                                .AddAction(dstview_id, "FOCUS")
                                 .Commit();
                     //part2. Set Trigger(scrollview) - Action(FOCUS)
                     /*
                     TextView[] target = {textViewTos1, textViewTos2, textViewTos3};
                     //todo : it is needed to define prority.
                     //Move tos1
-                    if (checkboxFlag ==2 || checkboxFlag == 4 || checkboxFlag == 6) {
+                    if (!target[0].isChecked()) {
                         scrollToView(target[0], mscrollview, 0);
                     } //Move tos2
-                    else if (checkboxFlag == 1 || checkboxFlag == 5) {
+                    else if (!target[1].isChecked()) {
                         scrollToView(target[1], mscrollview, 0);
                     } //Move tos3
-                    else if (checkboxFlag == 3) {
+                    else if (!target[2].isChecked()) {
                         scrollToView(target[2], mscrollview, 0);
                     }
                 }
