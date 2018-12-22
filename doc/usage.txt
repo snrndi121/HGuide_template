@@ -1,0 +1,55 @@
+1. usage
+- HGIndicator hgindicator = new HGIndicator(main_view);
+
+- hgindicator.Trigger(trigger_name, array_sourcesView_id, trigger_type)
+            .Action(array_destView_id, action_type)
+            .Commit();
+
+- hgindicator.Trigger(trigger_name, array_sourcesView_id, trigger_type);
+  hgindicator.Action(array_destView_id, action_type);
+  hgindicawtor.Commit();
+
+- hgindicator.AddAction(trigger_name, array_destView_id, action_type);
+- 그런데 만약에 indicator 안에 임시 변수로 기억해서 구동시키면 나중에 Action 잘못 사용해서 달면
+맛이 갈 수가 있으니깐 그렇게 구현하면 안될꺼같다.
+
+
+
+
+
+
+
+#1 HGIndicator 안에 Trigger가 호출되었는지에 대한 boolean 값을 넣어둬
+(1) Trigger가 호출되면, true 값이 되고, trigger_name을 저장을 해, 그리고 trigger_count 변수 선언
+(1-1) count 보다는 trigger_name에 대한 hash 값을 지니도록 할 것.
+
+(2) trigger 호출에 대한 boolean에 따라 Action 메소드가 동작
+(2-1) 그리고 Action이 호출되면, trigger가 호출되었는지 검사를 하고, true면 현재 trigger_count를 주고
+  목적과 action을 선언할 수 가 있어
+(2-2) false 라면, Action만 쓰인 형태이므로, 아무런 동작을 하지않고, 에러를 날림 사용 순서상의 에러
+(2-3) AddAction인 경우, 트리거의 이름을 찾아본 뒤 반응을 함.
+
+
+
+
+
+
+
+
+
+#2 그럼 HGAction 클래스의 멤버 구성
+// Target = { HashMap < Integer, Boolean > targetnodes, String event_type }
+// HGTrigger = { HashMap < String, Target > }, < trigger_name, sources >
+
+  * 이 녀석도 목적지와 액션에 대한 리스트를 구성할 필요가 있음 : 왜냐하면 여러개의 actions 이벤트가
+    들어올 것이니깐.
+
+  * 목적지에 대한 내용과 어떤 Action 인지만 알면된, 목적지의 상태는 별로 중요하지가 않음.
+
+- ArrayList < Integer, List < Action > > 의 자료형을 가짐, which means < trigger_hash_val, Target >
+- boolean actions_switch = false;
+
+Class Action {
+  List < Target > target;
+  Integer trigger_hash_val;
+};

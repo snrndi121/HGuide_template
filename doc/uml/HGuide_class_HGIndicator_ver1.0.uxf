@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>9</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>936</x>
+      <y>288</y>
+      <w>90</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>HGTemplate
+bg=red
+--
+#variables
+--
+#operations</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>639</x>
+      <y>450</y>
+      <w>396</w>
+      <h>171</h>
+    </coordinates>
+    <panel_attributes>HGIndicator
+bg=yellow
+--
+- name : String[]
+- rulesSet : 'custom class' or 'enum type'
+- targetEvent : 'custom class' or 'enum type'
+--
+#Operations
++ use(_opName : String)
++ rules(_whichrule : String ,_count :  long)
++ whereTo(_targetView : View, _pointX : long, _pointY : long)
+- setRules(_ruleName : String, _element : ...)
+- setTarget(_targetView : View)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1206</x>
+      <y>450</y>
+      <w>90</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>HGSuggestor
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>720</x>
+      <y>351</y>
+      <w>279</w>
+      <h>117</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>290.0;10.0;290.0;70.0;10.0;70.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>972</x>
+      <y>351</y>
+      <w>297</w>
+      <h>117</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0;310.0;70.0;310.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>333</x>
+      <y>324</y>
+      <w>216</w>
+      <h>81</h>
+    </coordinates>
+    <panel_attributes>RuleSet
+bg=green
+--
+- ruleType : String
+- ruleAttr : RuleAttr</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>540</x>
+      <y>333</y>
+      <w>117</w>
+      <h>171</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;80.0;10.0;80.0;170.0;110.0;170.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>333</x>
+      <y>450</y>
+      <w>243</w>
+      <h>81</h>
+    </coordinates>
+    <panel_attributes>TargetSet
+bg=green
+--
+- tarView : View
+- tarId : int
+- tarLoc : Point</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>333</x>
+      <y>198</y>
+      <w>216</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>RuleAttr
+bg=green
+--
+ruleId : long
+jumpTo : Point
+counter : long
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>567</x>
+      <y>459</y>
+      <w>90</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;50.0;10.0;50.0;30.0;80.0;30.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>432</x>
+      <y>279</y>
+      <w>27</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>153</x>
+      <y>135</y>
+      <w>108</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>Point
+bg=green
+-
+point_x : long
+point_y : long</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>189</x>
+      <y>189</y>
+      <w>162</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0;160.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>189</x>
+      <y>189</y>
+      <w>162</w>
+      <h>315</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;330.0;160.0;330.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>558</x>
+      <y>306</y>
+      <w>333</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>RuleSet
+- ruleType : {"HIGHTLIGHT", "FOCUS", "POINTER"} </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>225</x>
+      <y>531</y>
+      <w>126</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>Note..</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
