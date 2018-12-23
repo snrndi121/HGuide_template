@@ -2,12 +2,15 @@ package com.uki121.hguidetemplate;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -45,47 +48,6 @@ class HGAction {
     public HGAction() {
         mActions = new HashMap<>();
     };
-    /*
-    public void commit(View _mainiview, Target _trigger) {
-        //null check
-        if (_mainiview == null || _trigger == null) {
-            Log.e("HGA","There is no main view or sources.");
-            if (_trigger == null) {
-                Log.d("- Sources", "commit - source target is null.");
-            } else {
-                Log.d("- Main view", "commit - main view is null.");
-            }
-            Log.d("HGA", "no commit is occured.");
-            return ;
-        }
-        Log.d("HGA","method(commit) is on");
-        //1. ?��?��?�� action 리스?�� 찾아????��?��.(Find which actinos are executed)
-        int trigger_id = _trigger.getName().hashCode();
-        Log.d("HGA","Trigger name : " + _trigger.getName() + ", hash : " + trigger_id);
-        Iterator <Target> it_actions = getUndoAction(trigger_id).iterator();
-        if (!it_actions.hasNext()) {
-            Log.d("HGA","source has no actions undo.");
-            return;
-        }
-        //2. action ?��?��
-        while(it_actions.hasNext()) {
-            //3. source?�� 조건?��?�� ?��?��?��?�� ?��?��?�� ?��?���? 고른?��.
-            //(They will consider about where to be executed)
-            Iterator < Integer > src_it = _trigger.getElement().iterator();
-            //String act_type = dst_it.next().getType();
-            Target action = it_actions.next();
-            this.mActions.get(trigger_id).count();//interaction with action_point in Action class
-            while (src_it.hasNext()) {
-                //The state of Target view is true, then execute
-                int src_item = src_it.next();
-                if (!_trigger.getStatus(src_item)) {
-                    act(_mainiview, action, src_item);//?��?��?�� ?��?���? ?��?��?���? ?��?��?��?��.
-                }
-            }
-        }
-        return;
-    }
-    */
     //Execute actions matched their trigger on main view
     //@_mainview : the main view from HGIndicator's 'baseview'
     //@_trigger : a specific source's Target
@@ -123,7 +85,7 @@ class HGAction {
     //@_main : a main view of current views
     //@_action : a 'Target' which has action_type and destination target
     //@_child
-    public void act(View _main, Target _action, List <Boolean> _states) {
+    public void act(final View _main, Target _action, List <Boolean> _states) {
         Log.d("HGA","Method(act) is on.");
         try {
             //dst
@@ -133,7 +95,7 @@ class HGAction {
                 case "HIGHLIGHT":
                     for (int i = 0; i < dst.size(); ++i) {
                         if (!_states.get(i))
-                            manageBlinkEffect((TextView) _main.findViewById(dst.get(i)));
+                            highlight((TextView) _main.findViewById(dst.get(i)));
                     }
                     Log.d("Action : ", "HIGHLIGHT");
                     break;
@@ -161,11 +123,41 @@ class HGAction {
                             break;
                     }
                     Log.d("Action : ", "FOCUS");
-                    //scrollviwe 찾는 작업 필요함
-                    // scrollToView((CheckBox) _main.findViewById(_child), (ScrollView) _main.findViewById(scroll_id), 0);
-                    break;
+                     break;
                 case "POINTER":
                     Log.d("Action : ", "POINTER");
+                    final EditText editText;
+                    int tarID = 0;
+                    for (int i = 0; i < dst.size(); ++i) {
+                        Log.d("state", "" + _states.get(i));
+                        Log.d("name", "" + _main.findViewById(dst.get(i)).getAccessibilityClassName().toString());
+                        if (!_states.get(i) && _main.findViewById(dst.get(i)).getAccessibilityClassName().toString() == "android.widget.EditText") {
+                            tarID = dst.get(i);
+                            break;
+                        }
+                    }
+                    Log.d("ID", ""+tarID);
+                    if (tarID == R.id.edit_1) {
+                        Log.d("ID", "A");
+                    } else if (tarID == R.id.edit_2) {
+                        Log.d("ID", "B");
+                    } else if (tarID == R.id.edit_3) {
+                        Log.d("ID", "C");
+                    }
+                    if (tarID != 0) {
+                        editText = (EditText) _main.findViewById(tarID);
+                        editText.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                editText.setFocusableInTouchMode(true);
+                                editText.requestFocus();
+
+                                InputMethodManager imm = (InputMethodManager) _main.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                                imm.showSoftInput(editText, 0);
+
+                            }
+                        });
+                    }
                     break;
                 case "POPUP":
                 default:
@@ -189,12 +181,12 @@ class HGAction {
             new_actionsList.add(new Target(_dstid, _actiontype));
             //
             Iterator <Target> it = new_actionsList.getTarget().iterator();
-            Log.i("\nTarget List", "which has a trigger, '" + _trigname + "'.");
+            Log.i("\n\nTarget List", "which has a trigger, '" + _trigname + "'.");
             while(it.hasNext())
             {
                 it.next().getInfo();
             }
-            //
+
             this.mActions.put(trig_hash_val, new_actionsList);
             Log.d("HGA", "new actions are added into existing action list.");
         }
@@ -205,7 +197,7 @@ class HGAction {
         return temp.getTarget();
     }
     //method
-    private void manageBlinkEffect(TextView _target) {
+    private void highlight(TextView _target) {
         ObjectAnimator anim = ObjectAnimator.ofInt(_target, "backgroundColor", Color.WHITE, Color.BLUE,
                 Color.WHITE);
         anim.setDuration(3000);
