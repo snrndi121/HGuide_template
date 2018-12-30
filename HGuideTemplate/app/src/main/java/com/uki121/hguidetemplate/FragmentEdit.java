@@ -2,14 +2,18 @@ package com.uki121.hguidetemplate;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class FragmentEdit extends Fragment {
@@ -28,6 +32,7 @@ public class FragmentEdit extends Fragment {
         editText2 = (EditText) view.findViewById(R.id.edit_2);
         editText3 = (EditText) view.findViewById(R.id.edit_3);
         button_confm = (Button) view.findViewById(R.id.btn_edittext);
+        //
         List < Integer > target_id = Arrays.asList(R.id.edit_1, R.id.edit_2, R.id.edit_3);
         //
         //* Except
@@ -35,9 +40,42 @@ public class FragmentEdit extends Fragment {
         //* 개요 : "등록된 소스 타겟이 조건안에 실행이 안되면 목적 타겟으로 알려주는 작업"
         // 일정 시간마다 계속해서 저거를 실행을 시켜줘야함.
         //
-        hgi.Trigger("process_next", target_id, "Except")
-           .Action(target_id, "HIGHLIGHT")
-           .Commit();
+        //hgi.Trigger("process_next", target_id, "Except")
+        //   .Action(target_id, "HIGHLIGHT")
+        //   .Commit();
+        /*
+        view.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent e) {
+                switch (e.getAction()) {
+                    case MotionEvent.ACTION_UP :
+                    case MotionEvent.ACTION_DOWN :
+                        Toast.makeText(getActivity(), e.getAction(), Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        break;
+                }
+                return true;
+            }
+        });
+        */
+        Log.w("TEST", "Hash switch ~ start");
+        HashMap < Integer, String> hashMap = new HashMap<>();
+        for (int i = 0; i < 5; ++i) {
+            hashMap.put(i, "val(" + i + ")");
+        }
+        for (int i = 0; i < 5; ++i) {
+            Log.w("val ", hashMap.get(i));
+        }
+        Log.e("TEST3", "-----------------------------");
+        //new input-1
+        hashMap.put(0, "val(" + 10 + ")");
+        hashMap.put(3, "val(" + 30 + ")");
+        //print
+        for (int i = 0; i < 5; ++i) {
+            Log.w("val ", hashMap.get(i));
+        }
+        Log.w("TEST", "Hash switch ~ end");
 
         //todo : Except
         button_confm.setOnClickListener(new View.OnClickListener() {
@@ -46,10 +84,13 @@ public class FragmentEdit extends Fragment {
                 List < Integer > target_id = Arrays.asList(R.id.edit_1, R.id.edit_2, R.id.edit_3);
                 hgi.Trigger("process_edit", target_id, "Empty_text")
                     //.Action(target_id, "HIGHLIGHT")
-                    .AddAction(target_id, "POINTER")
+                    //.AddAction(target_id, "POINTER")
+                    .Action(target_id, "POINTER")
                     .Commit();
             }
         });
+
         return view;
+
     }
 }

@@ -15,17 +15,15 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 class HGAction {
     enum ACT_TYPE {HIGHLIGHT, FOCUS, POINTER}
     class Action {
-        private ArrayList < Target > targets;
+        private List < Target > targets;
         private int trigger_hash_val;
         private int action_point = 0;
         protected Action() {
@@ -37,7 +35,7 @@ class HGAction {
             this.trigger_hash_val = _trihash_val;
         }
         protected void add(Target _element) { targets.add(_element);}
-        protected ArrayList < Target > getTarget() { return this.targets;}
+        protected List < Target > getTarget() { return this.targets;}
         protected List < Target > getUndo() { return action_point != targets.size()? targets.subList(action_point, targets.size() - 1) : null; }
         protected void count() {this.action_point++;}
         protected int getId() { return this.trigger_hash_val;}
@@ -55,25 +53,25 @@ class HGAction {
         try {
             //0. 메인뷰와 트리거가 등록 안된 상태라면 예외발생(null check)
             if (_mainview == null || _trigger == null) {
-                Log.e("HGA","There is no main view or sources.");
+                Log.w("HGA","There is no main view or sources.");
                 throw new Exception();
             }
-            Log.d("HGA", "method(commit) is on");
-
+            Log.i("HGA", "COMMIT is on");
             //1. 트리거 이름과 연관된 액션 리스트 불러옴(Find which actions are executed)
             int trigger_id = _trigger.getName().hashCode(); //get trigger id
             Log.d("HGA", "Trigger name : " + _trigger.getName() + ", hash : " + trigger_id);    //get action
-            Iterator<Target> action_target = getUndoAction(trigger_id).iterator(); //get action by trigger id
-            if (!action_target.hasNext()) {    //size check
+            List <Target> action_target = new ArrayList<>(getUndoAction(trigger_id)); //get action by trigger id
+            //size check
+            if (action_target.size() <= 0) {
                 Log.e("HGA", "source has no actions matched.");
                 throw new Exception();
             }
             //2. 트리거의 상태 불러 오기(execute actions by states of sources)
             List < Boolean > source_target = new ArrayList<>(_trigger.getStatus()); //get stat of sources
-            /*todo*///Iterator <Integer> source_target = _trigger.getElement().iterator();
             //3. 트리거 상태에 따라 액션 반응 시키기
-            while(action_target.hasNext()) {
-                Target action = action_target.next();
+            for (int i = 0; i < action_target.size(); ++i) {
+                Target action = action_target.get(i);
+                action.getInfo();
                 act(_mainview, action, source_target);
             }
         } catch(Exception e)
@@ -86,8 +84,9 @@ class HGAction {
     //@_action : a 'Target' which has action_type and destination target
     //@_child
     public void act(final View _main, Target _action, List <Boolean> _states) {
-        Log.d("HGA","Method(act) is on.");
+        Log.i("HGA","ACT is on.");
         try {
+            _action.getInfo();
             //dst
             List < Integer > dst = new ArrayList<>(_action.getElement());
             String _actiontype = _action.getType();
@@ -106,7 +105,7 @@ class HGAction {
                     View[] children = new View[root.getChildCount()];
                     for (id = 0; id < root.getChildCount(); ++id) {
                         children[id] = (View) root.getChildAt(id);
-                        Log.i("Child-name", "" + children[id].getAccessibilityClassName());
+                        Log.d("Child-name", "" + children[id].getAccessibilityClassName());
                         if (children[id].getAccessibilityClassName().equals("android.widget.ScrollView")) {
                             scrl_found = true;
                             break;
@@ -117,24 +116,24 @@ class HGAction {
                         throw new Exception();
                     }
                     //focus
-                    for (int index = 0; index < dst.size(); ++index) {
-                        if (!_states.get(index))
-                            scrollToView(_main.findViewById(dst.get(index)), (ScrollView) children[id], 0);
+                    for (int i = 0; i< dst.size(); ++i) {
+                        int curID = dst.get(i);
+                        if (!_states.get(i))
+                            scrollToView(_main.findViewById(curID), (ScrollView) children[id], 0);
                             break;
                     }
                     Log.d("Action : ", "FOCUS");
                      break;
-                case "POINTER":
-                    Log.d("Action : ", "POINTER");
+                case "POINTER"://todo : animation is needed
+                    Log.i("Action : ", "POINTER");
                     final EditText editText;
-                    int tarID = 0;
+                    int tarID = Integer.MAX_VALUE;
                     for (int i = 0; i < dst.size(); ++i) {
-                        Log.d("state", "" + _states.get(i));
-                        Log.d("name", "" + _main.findViewById(dst.get(i)).getAccessibilityClassName().toString());
-                        if (!_states.get(i) && _main.findViewById(dst.get(i)).getAccessibilityClassName().toString() == "android.widget.EditText") {
-                            tarID = dst.get(i);
-                            break;
-                        }
+                        int curID = dst.get(i);
+                        if (!_states.get(i) && _main.findViewById(curID).getAccessibilityClassName().toString() == "android.widget.EditText") {
+                            if (curID < tarID)
+                                tarID = curID;
+                        }/* todo : else if () */
                     }
                     Log.d("ID", ""+tarID);
                     if (tarID == R.id.edit_1) {
@@ -154,14 +153,13 @@ class HGAction {
 
                                 InputMethodManager imm = (InputMethodManager) _main.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                                 imm.showSoftInput(editText, 0);
-
                             }
                         });
                     }
                     break;
                 case "POPUP":
                 default:
-                    Log.d("Action : ", "There is no such action name(" + _actiontype + ")");
+                    Log.w("Action : ", "There is no such action name(" + _actiontype + ")");
                     break;
             }
         } catch (Exception e) {
@@ -171,7 +169,7 @@ class HGAction {
     }
     public void add(List < Integer > _dstid, String _actiontype, String _trigname) {
         int trig_hash_val = _trigname.hashCode();
-        Log.d("\nHGA","method(add) is on.");
+        Log.i("\nHGA","ADD is on.");
         //if there is an element already, then add into the back
         if (!this.mActions.containsKey(trig_hash_val)) {
                 Log.d("HGA", "first actions are enrolled.");
@@ -180,11 +178,10 @@ class HGAction {
             Action new_actionsList = mActions.get(trig_hash_val);
             new_actionsList.add(new Target(_dstid, _actiontype));
             //
-            Iterator <Target> it = new_actionsList.getTarget().iterator();
-            Log.i("\n\nTarget List", "which has a trigger, '" + _trigname + "'.");
-            while(it.hasNext())
-            {
-                it.next().getInfo();
+            List <Target> it_target = new_actionsList.getTarget();
+            Log.d("\n\nTarget List", "which has a trigger, '" + _trigname + "'.");
+            for (int i = 0; i < it_target.size(); ++i) {
+                it_target.get(i).getInfo();
             }
 
             this.mActions.put(trig_hash_val, new_actionsList);

@@ -3,11 +3,10 @@ package com.uki121.hguidetemplate;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -20,19 +19,20 @@ public class Target {
         targetnodes = new HashMap<>();
     }
     public Target(String _eventtype) {
-        Log.d("- Target", "construction");
+        Log.d("Target-construction(1)", "start ~");
         targetnodes = new HashMap<>();
         this.event_type = _eventtype;
+        Log.d("Target-constructor(1)", "~ success");
     }
     public Target(List < Integer > _tid, String _event) {
-        Log.d("Target-constructor", "start ~");
+        Log.d("Target-constructor(2)", "start ~");
         targetnodes = new HashMap<>();
         this.event_type = _event;
         for (int i = 0; i < _tid.size(); ++i) {
             targetnodes.put(_tid.get(i), false);
             Log.i("Target-element", "id :" + _tid.get(i));
         }
-        Log.d("Target-constructor", "~ success");
+        Log.d("Target-constructor(2)", "~ success");
     }
     public Target(List < Integer > _tid, List < Boolean> _state, String _event) {
         this.event_type = _event;
@@ -52,20 +52,30 @@ public class Target {
     }
     //print all about a information of a target
     public void getInfo() {
-        Log.d("Target-info", "start");
-        Iterator < Integer > it_key = targetnodes.keySet().iterator();
-        while(it_key.hasNext()) {
-            int key_val = it_key.next();
-            Log.i("Target_set", "key : " + key_val + ", value : " + targetnodes.get(key_val));
+        Log.d("Target-info1", "start");
+        List < Integer > it_key = new ArrayList<>(targetnodes.keySet());
+        for (int i = 0; i < it_key.size(); ++i) {
+            int key_val = it_key.get(i);
+            Log.i("Target_getInfo", "key : " + key_val + ", value : " + targetnodes.get(key_val));
         }
-        Log.d("Target-info", "success");
+        Log.d("Target-info1", "success");
+        /*
+        Log.d("Target-info2", "start");
+        Set <Map.Entry< Integer, Boolean > > it2_key = targetnodes.entrySet();
+        Iterator <Map.Entry<Integer, Boolean > > itr = it2_key.iterator();
+        while(itr.hasNext()) {
+            Map.Entry < Integer, Boolean > e= (Map.Entry <Integer, Boolean>) itr.next();
+            Log.i("Target_getInfo", "key : " + e.getKey() + ", value : " + e.getValue());
+        }
+        Log.d("Target-info2", "success");
+        */
     }
     public String getName() { return this.target_name;}
     public String getType() { return this.event_type;}
     public boolean getStatusAll() {
-        Iterator it = targetnodes.values().iterator();
-        while(it.hasNext())
-            if (!(Boolean) it.next()) { return false;}
+        List < Boolean > tarState = new ArrayList<>(targetnodes.values());
+        for (int i = 0; i < tarState.size(); ++i)
+            if (!tarState.get(i)) { return false;}
         return true;
     }
     public Collection< Boolean > getStatus() { return targetnodes.values();}

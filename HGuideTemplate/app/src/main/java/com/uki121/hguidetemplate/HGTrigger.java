@@ -8,7 +8,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 class HGTrigger {
@@ -26,13 +25,12 @@ class HGTrigger {
         targets.put(_trigname, new Target(_src, _trigtype));
     }
     private static List < Boolean > getStatusFrom(List < Integer > tid, View _view) {
-        Iterator <Integer> tid_iterator = tid.iterator();
         List <Boolean> status = new ArrayList<>();
         try {
-            while (tid_iterator.hasNext()) {
-                int srcID = tid_iterator.next();
+            for (int i = 0; i < tid.size(); ++i) {
+                int srcID = tid.get(i);
                 String sam = _view.findViewById(srcID).getAccessibilityClassName().toString();
-                Log.e("command", sam);
+                Log.d("HGT", sam);
                 switch (sam) {
                     case "android.widget.CheckBox": {
                         CheckBox child_views;
@@ -66,13 +64,13 @@ class HGTrigger {
         }
         return null;
     }
-    public static Target setTrigger(String _trig_type, final List < Integer > _tid, View _view) {
+    public static Target setTrigger(String _trigtype, final List < Integer > _tid, View _view) {
         //1. View initializing
         final int tsize = _tid.size();
-        final Target checked_tar = new Target(_trig_type);
+        //Target checked_tar = new Target(_trigtype);
         final List <Boolean> status = new ArrayList<>(getStatusFrom(_tid, _view));
-        Log.d("HGT","method(chekcstatus) in on " + _trig_type);
-        switch (_trig_type) {
+        Log.i("HGT","SETTRIGGER in on " + _trigtype);
+        switch (_trigtype) {
             case "Except" :
                 //* Except
                 //* 목적 : 제한된 시간이랑 버튼 카운트를 넘어가면 해야될 작업들을 알려주는 작업
@@ -107,6 +105,7 @@ class HGTrigger {
                 //터치이벤트가 동작을 하고 있음.
                 //Except = process 이름이 될 수도
                 //일정 순서대로 진행해야되는데 이를 src에 넣어두고 그렇게 행동을 하지 않으면 가리키게 함.
+                /*
                 _view.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
@@ -130,12 +129,17 @@ class HGTrigger {
                         return false;
                     }
                 });
+
                 return checked_tar;
-            case "Empty_text" :
+                */
             case "All_check" :
+            case "Empty_text" :
+                Target checked_tar = new Target(_trigtype);
                 for (int i = 0; i < tsize; ++i) {
+                    Log.i("HGT-setTrigger", "tid : " + _tid.get(i));
                     checked_tar.setStatus(_tid.get(i), status.get(i));
                 }
+                checked_tar.getInfo();
                 return checked_tar;
             case "Process" :
                 //각각의 상태들을 받아와서 어떤것부터 실행할지 알려주는 작업
@@ -156,13 +160,13 @@ class HGTrigger {
     public boolean getStatusAll(String _trigname) { return this.targets.get(_trigname).getStatusAll();}
     public Target getTarget(String _trigname) {
         //todo
-        Log.d("HGT", "getTarget()");
+        Log.i("HGT", "GETTARGET");
         Target t = targets.get(_trigname);
         if (t != null) {
             Log.d("- Target", "has elements.");
             return targets.get(_trigname);
         }
-        Log.d("- Target", "is null.");
+        Log.w("- Target", "is null.");
         return null;
     }
 
