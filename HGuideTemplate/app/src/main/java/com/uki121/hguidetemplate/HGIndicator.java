@@ -29,7 +29,7 @@ public class HGIndicator {
         //1. check the state of source_target_list
         Target new_source = triggers.setTrigger(_trigtype, _srcid, baseview);
         new_source.setName(_trigname);
-        triggers.add(_trigname, new_source);
+        triggers.add(_trigname.hashCode(), new_source);
         temp_trigger = _trigname;
         return this;
     }
@@ -64,6 +64,7 @@ public class HGIndicator {
             final String trigType = triggerTars.getType();
             final String trigName = temp_trigger;
             Log.d("TriggerType", trigType);
+            //trigger_type : Except
             if (trigType.equals(HGTrigger.TRIG_TYPE.Except.toString())) {
                 Log.d("OK","IN");
                 baseview.setOnTouchListener(new View.OnTouchListener() {
@@ -77,7 +78,9 @@ public class HGIndicator {
                         return true;
                     }
                 });
-            } else {
+            }
+            //trigger_type : remain
+            else {
                 Log.d("NOP","OUT");
                 actions.commit(baseview, triggerTars);
             }

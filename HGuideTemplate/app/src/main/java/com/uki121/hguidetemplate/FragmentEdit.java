@@ -41,8 +41,8 @@ public class FragmentEdit extends Fragment {
         // 일정 시간마다 계속해서 저거를 실행을 시켜줘야함.
         //
         hgi.Trigger("process_next", target_id, "Except")
-             .Action(target_id, "HIGHLIGHT")
-             .Commit();
+           .Action(target_id, "HIGHLIGHT")
+           .Commit();
         button_confm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

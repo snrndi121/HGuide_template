@@ -13,7 +13,7 @@ import java.util.Set;
 public class Target {
     private HashMap < Integer, Boolean > targetnodes;//< targetid, state >
     private String target_name = "no name";
-    private String event_type;//event_type = {trigger_type, action_type}
+    private String event_type;
 
     public Target() {
         targetnodes = new HashMap<>();

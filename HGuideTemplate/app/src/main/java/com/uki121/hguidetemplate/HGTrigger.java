@@ -9,11 +9,42 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 class HGTrigger {
+    class Trigger_Set {
+        final String DEFAULT_TYPE = "no type";
+        Trigger_Set() { this.sibling_trigger = new ArrayList<>();}
+        Trigger_Set(String _trigType) {
+            sibling_trigger = new ArrayList<>();
+            this.triggerType = _trigType;
+        }
+        public void add(int _newTrigger) {
+            sibling_trigger.add(_newTrigger);
+        }
+        boolean find(int _newTrigger) {
+            Iterator < Integer > it = sibling_trigger.iterator();
+            while(it.hasNext()) {
+                if (it.next() == _newTrigger){ return true;}
+            }
+            return false;
+        }
+        public List < Integer > get(String _trigType) { return sibling_trigger;}
+        public String getType(int _trigger) {
+            Iterator< Integer > it = sibling_trigger.iterator();
+            while(it.hasNext()) {
+                if (it.next() == _trigger) {
+                    return triggerType;}
+            }
+            return DEFAULT_TYPE;
+        }
+        String triggerType;
+        List < Integer > sibling_trigger;
+    };
     enum TRIG_TYPE{Except, Empty_text, All_check, Scroll_bottom, Scroll_up};
-    private HashMap < String, Target > targets;//< Trigger_name, Source_views >
+    private HashMap < Integer, Target > targets;//< Trigger_name, Source_views >
+    private List < Trigger_Set > trigger_list;
     private static final int MAX_TOUCH_COUNT = 15;
     private static int count = 0;
     private int statistical_count = 0;//In a view //todo : more
@@ -23,7 +54,7 @@ class HGTrigger {
     public HGTrigger(){
         targets = new HashMap<>();
     };
-    public HGTrigger(String _trigname, List < Integer > _src, String _trigtype) {
+    public HGTrigger(Integer _trigname, List < Integer > _src, String _trigtype) {
         targets = new HashMap<>();
         targets.put(_trigname, new Target(_src, _trigtype));
     }
@@ -126,8 +157,8 @@ class HGTrigger {
         }
         return null;
     }
-    public void add(String _trigname, List< Integer > _srcid, String _trigtype) { targets.put(_trigname, new Target(_srcid, _trigtype));}
-    public void add(String _trigname, Target _src) { targets.put(_trigname, _src);}
+    public void add(Integer _trigname, List< Integer > _srcid, String _trigtype) { targets.put(_trigname, new Target(_srcid, _trigtype));}
+    public void add(Integer _trigname, Target _src) { targets.put(_trigname, _src);}
     public boolean find(String _trigname) {return targets.containsKey(_trigname);}
     public boolean getStatusAll(String _trigname) { return this.targets.get(_trigname).getStatusAll();}
     public Target getTarget(String _trigname) {

@@ -43,7 +43,8 @@ class HGAction {
         protected int getSize() { return this.targets.size();}
         protected int getLoc() { return this.action_point;}
     };
-    private HashMap<Integer,  Action > mActions;
+
+    private HashMap<Integer,  Action > mActions; //< Hash_triggerName, Action >
     public HGAction() {
         mActions = new HashMap<>();
     };
