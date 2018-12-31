@@ -19,20 +19,22 @@ public class Target {
         targetnodes = new HashMap<>();
     }
     public Target(String _eventtype) {
-        Log.d("Target-construction(1)", "start ~");
+        //Log.d("Target-construction(1)", "start ~");
+        Log.d("Target-construction(1)", "success");
         targetnodes = new HashMap<>();
         this.event_type = _eventtype;
-        Log.d("Target-constructor(1)", "~ success");
+        //Log.d("Target-constructor(1)", "~ success");
     }
     public Target(List < Integer > _tid, String _event) {
-        Log.d("Target-constructor(2)", "start ~");
+        //Log.d("Target-constructor(2)", "start ~");
+        Log.d("Target-construction(2)", "success");
         targetnodes = new HashMap<>();
         this.event_type = _event;
         for (int i = 0; i < _tid.size(); ++i) {
             targetnodes.put(_tid.get(i), false);
-            Log.i("Target-element", "id :" + _tid.get(i));
+            /*todo : delete it*///Log.i("Target-element", "id :" + _tid.get(i));
         }
-        Log.d("Target-constructor(2)", "~ success");
+        //Log.d("Target-constructor(2)", "~ success");
     }
     public Target(List < Integer > _tid, List < Boolean> _state, String _event) {
         this.event_type = _event;
@@ -52,13 +54,13 @@ public class Target {
     }
     //print all about a information of a target
     public void getInfo() {
-        Log.d("Target-info1", "start");
+        Log.d("Target-info", "start");
         List < Integer > it_key = new ArrayList<>(targetnodes.keySet());
         for (int i = 0; i < it_key.size(); ++i) {
             int key_val = it_key.get(i);
             Log.i("Target_getInfo", "key : " + key_val + ", value : " + targetnodes.get(key_val));
         }
-        Log.d("Target-info1", "success");
+        Log.d("Target-info", "success");
         /*
         Log.d("Target-info2", "start");
         Set <Map.Entry< Integer, Boolean > > it2_key = targetnodes.entrySet();

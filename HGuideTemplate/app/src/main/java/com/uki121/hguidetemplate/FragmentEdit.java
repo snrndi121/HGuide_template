@@ -40,52 +40,16 @@ public class FragmentEdit extends Fragment {
         //* 개요 : "등록된 소스 타겟이 조건안에 실행이 안되면 목적 타겟으로 알려주는 작업"
         // 일정 시간마다 계속해서 저거를 실행을 시켜줘야함.
         //
-        //hgi.Trigger("process_next", target_id, "Except")
-        //   .Action(target_id, "HIGHLIGHT")
-        //   .Commit();
-        /*
-        view.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent e) {
-                switch (e.getAction()) {
-                    case MotionEvent.ACTION_UP :
-                    case MotionEvent.ACTION_DOWN :
-                        Toast.makeText(getActivity(), e.getAction(), Toast.LENGTH_SHORT).show();
-                        break;
-                    default:
-                        break;
-                }
-                return true;
-            }
-        });
-        */
-        Log.w("TEST", "Hash switch ~ start");
-        HashMap < Integer, String> hashMap = new HashMap<>();
-        for (int i = 0; i < 5; ++i) {
-            hashMap.put(i, "val(" + i + ")");
-        }
-        for (int i = 0; i < 5; ++i) {
-            Log.w("val ", hashMap.get(i));
-        }
-        Log.e("TEST3", "-----------------------------");
-        //new input-1
-        hashMap.put(0, "val(" + 10 + ")");
-        hashMap.put(3, "val(" + 30 + ")");
-        //print
-        for (int i = 0; i < 5; ++i) {
-            Log.w("val ", hashMap.get(i));
-        }
-        Log.w("TEST", "Hash switch ~ end");
-
-        //todo : Except
+        hgi.Trigger("process_next", target_id, "Except")
+             .Action(target_id, "HIGHLIGHT")
+             .Commit();
         button_confm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 List < Integer > target_id = Arrays.asList(R.id.edit_1, R.id.edit_2, R.id.edit_3);
                 hgi.Trigger("process_edit", target_id, "Empty_text")
                     //.Action(target_id, "HIGHLIGHT")
-                    //.AddAction(target_id, "POINTER")
-                    .Action(target_id, "POINTER")
+                    .AddAction(target_id, "POINTER")
                     .Commit();
             }
         });

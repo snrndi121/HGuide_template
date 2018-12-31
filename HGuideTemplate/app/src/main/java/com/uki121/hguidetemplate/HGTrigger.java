@@ -3,17 +3,20 @@ package com.uki121.hguidetemplate;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 class HGTrigger {
-    enum TRIG_TYPE{Except, Empty_text, All_check, Process, Scroll_bottom, Scroll_up};
+    enum TRIG_TYPE{Except, Empty_text, All_check, Scroll_bottom, Scroll_up};
     private HashMap < String, Target > targets;//< Trigger_name, Source_views >
-
+    private static final int MAX_TOUCH_COUNT = 15;
+    private static int count = 0;
+    private int statistical_count = 0;//In a view //todo : more
     interface setCustom {
         boolean status_check(String[] _args);
     }
@@ -24,13 +27,13 @@ class HGTrigger {
         targets = new HashMap<>();
         targets.put(_trigname, new Target(_src, _trigtype));
     }
-    private static List < Boolean > getStatusFrom(List < Integer > tid, View _view) {
+    private static List < Boolean > getStatusFrom(List < Integer > tid, View _view, String _trigtype) {
         List <Boolean> status = new ArrayList<>();
         try {
             for (int i = 0; i < tid.size(); ++i) {
                 int srcID = tid.get(i);
                 String sam = _view.findViewById(srcID).getAccessibilityClassName().toString();
-                Log.d("HGT", sam);
+                //Log.d("HGT", sam);
                 switch (sam) {
                     case "android.widget.CheckBox": {
                         CheckBox child_views;
@@ -40,8 +43,7 @@ class HGTrigger {
                         break;
                     case "android.widget.EditText": {
                         EditText child_views;
-                        //todo : EditText가 모두 빈값이라면 제일 위의 녀석만 false 처리, 그 뒤는 그냥 무시,
-                        child_views = _view.findViewById(srcID);
+                       child_views = _view.findViewById(srcID);
                         if (child_views.getText() != null) {
                             status.add(!child_views.getText().toString().isEmpty());
                         } else {
@@ -64,11 +66,11 @@ class HGTrigger {
         }
         return null;
     }
-    public static Target setTrigger(String _trigtype, final List < Integer > _tid, View _view) {
+    public static Target setTrigger(final String _trigtype, final List < Integer > _tid, final View _view) {
         //1. View initializing
         final int tsize = _tid.size();
-        //Target checked_tar = new Target(_trigtype);
-        final List <Boolean> status = new ArrayList<>(getStatusFrom(_tid, _view));
+        final Target checked_tar = new Target(_trigtype);
+        final List <Boolean> status = new ArrayList<>(getStatusFrom(_tid, _view, _trigtype));
         Log.i("HGT","SETTRIGGER in on " + _trigtype);
         switch (_trigtype) {
             case "Except" :
@@ -105,45 +107,15 @@ class HGTrigger {
                 //터치이벤트가 동작을 하고 있음.
                 //Except = process 이름이 될 수도
                 //일정 순서대로 진행해야되는데 이를 src에 넣어두고 그렇게 행동을 하지 않으면 가리키게 함.
-                /*
-                _view.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        int count = 0;
-                        switch (event.getAction()) {
-                            case MotionEvent.ACTION_DOWN :
-                            case MotionEvent.ACTION_MOVE :
-                            case MotionEvent.ACTION_UP :
-                                for (int i = 0; i < tsize; ++i) {
-                                    checked_tar.setStatus(_tid.get(i), status.get(i));
-                                }
-                                count ++;
-                                break;
-                            default:
-                                Log.e("HGT-except", "no such motion event found");
-                                break;
-                        }
-                        if (count % 3 == 0) {
-                            //do Action
-                        }
-                        return false;
-                    }
-                });
-
-                return checked_tar;
-                */
+                if ((count++) % MAX_TOUCH_COUNT == 0) {
+                    count %= MAX_TOUCH_COUNT;
+                }
             case "All_check" :
             case "Empty_text" :
-                Target checked_tar = new Target(_trigtype);
-                for (int i = 0; i < tsize; ++i) {
-                    Log.i("HGT-setTrigger", "tid : " + _tid.get(i));
+                for (int i = 0; i < tsize; ++i) {//Log.i("HGT-setTrigger", "tid : " + _tid.get(i));
                     checked_tar.setStatus(_tid.get(i), status.get(i));
                 }
-                checked_tar.getInfo();
                 return checked_tar;
-            case "Process" :
-                //각각의 상태들을 받아와서 어떤것부터 실행할지 알려주는 작업
-                break;
             case "Scroll_up" :
                 break;
             case "Scroll_down" :
@@ -169,5 +141,6 @@ class HGTrigger {
         Log.w("- Target", "is null.");
         return null;
     }
-
+    public int getCount() { return count;}
+    public boolean IsMaxCount() { return count % MAX_TOUCH_COUNT == 0;}
 }

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Handler;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -59,20 +60,17 @@ class HGAction {
             Log.i("HGA", "COMMIT is on");
             //1. 트리거 이름과 연관된 액션 리스트 불러옴(Find which actions are executed)
             int trigger_id = _trigger.getName().hashCode(); //get trigger id
-            Log.d("HGA", "Trigger name : " + _trigger.getName() + ", hash : " + trigger_id);    //get action
+            //Log.d("HGA", "Trigger name : " + _trigger.getName() + ", hash : " + trigger_id);    //get action
             List <Target> action_target = new ArrayList<>(getUndoAction(trigger_id)); //get action by trigger id
             //size check
             if (action_target.size() <= 0) {
                 Log.e("HGA", "source has no actions matched.");
                 throw new Exception();
             }
-            //2. 트리거의 상태 불러 오기(execute actions by states of sources)
-            List < Boolean > source_target = new ArrayList<>(_trigger.getStatus()); //get stat of sources
-            //3. 트리거 상태에 따라 액션 반응 시키기
+            //2. 트리거에 따라 액션 반응 시키기
             for (int i = 0; i < action_target.size(); ++i) {
                 Target action = action_target.get(i);
-                action.getInfo();
-                act(_mainview, action, source_target);
+                act(_mainview, action, _trigger);
             }
         } catch(Exception e)
         {
@@ -83,17 +81,18 @@ class HGAction {
     //@_main : a main view of current views
     //@_action : a 'Target' which has action_type and destination target
     //@_child
-    public void act(final View _main, Target _action, List <Boolean> _states) {
+    public void act(final View _main, Target _action, Target _trigger) {
         Log.i("HGA","ACT is on.");
+        //0. 트리거의 상태 불러 오기(execute actions by states of sources)
+        List < Boolean > trigStates = new ArrayList<>(_trigger.getStatus()); //get stat of sources
         try {
-            _action.getInfo();
             //dst
             List < Integer > dst = new ArrayList<>(_action.getElement());
             String _actiontype = _action.getType();
             switch (_actiontype) {
                 case "HIGHLIGHT":
                     for (int i = 0; i < dst.size(); ++i) {
-                        if (!_states.get(i))
+                        if (!trigStates.get(i))
                             highlight((TextView) _main.findViewById(dst.get(i)));
                     }
                     Log.d("Action : ", "HIGHLIGHT");
@@ -118,7 +117,7 @@ class HGAction {
                     //focus
                     for (int i = 0; i< dst.size(); ++i) {
                         int curID = dst.get(i);
-                        if (!_states.get(i))
+                        if (!trigStates.get(i))
                             scrollToView(_main.findViewById(curID), (ScrollView) children[id], 0);
                             break;
                     }
@@ -130,20 +129,12 @@ class HGAction {
                     int tarID = Integer.MAX_VALUE;
                     for (int i = 0; i < dst.size(); ++i) {
                         int curID = dst.get(i);
-                        if (!_states.get(i) && _main.findViewById(curID).getAccessibilityClassName().toString() == "android.widget.EditText") {
+                        if (!trigStates.get(i) && _main.findViewById(curID).getAccessibilityClassName().toString() == "android.widget.EditText") {
                             if (curID < tarID)
                                 tarID = curID;
                         }/* todo : else if () */
                     }
-                    Log.d("ID", ""+tarID);
-                    if (tarID == R.id.edit_1) {
-                        Log.d("ID", "A");
-                    } else if (tarID == R.id.edit_2) {
-                        Log.d("ID", "B");
-                    } else if (tarID == R.id.edit_3) {
-                        Log.d("ID", "C");
-                    }
-                    if (tarID != 0) {
+                    if (tarID != Integer.MAX_VALUE) {
                         editText = (EditText) _main.findViewById(tarID);
                         editText.post(new Runnable() {
                             @Override
@@ -177,13 +168,6 @@ class HGAction {
         } else { //add into the back
             Action new_actionsList = mActions.get(trig_hash_val);
             new_actionsList.add(new Target(_dstid, _actiontype));
-            //
-            List <Target> it_target = new_actionsList.getTarget();
-            Log.d("\n\nTarget List", "which has a trigger, '" + _trigname + "'.");
-            for (int i = 0; i < it_target.size(); ++i) {
-                it_target.get(i).getInfo();
-            }
-
             this.mActions.put(trig_hash_val, new_actionsList);
             Log.d("HGA", "new actions are added into existing action list.");
         }
