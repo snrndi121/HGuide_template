@@ -11,81 +11,74 @@ import java.util.Set;
 
 
 public class Target {
-    private HashMap < Integer, Boolean > targetnodes;//< targetid, state >
-    private String target_name = "no name";
-    private String event_type;
+    private HashMap < Integer, Boolean > viewState;//< targetid, state >
+    private int event_name = Integer.MAX_VALUE;
+    private String event_type = "no type";
 
     public Target() {
-        targetnodes = new HashMap<>();
+        viewState = new HashMap<>();
     }
-    public Target(String _eventtype) {
-        //Log.d("Target-construction(1)", "start ~");
-        Log.d("Target-construction(1)", "success");
-        targetnodes = new HashMap<>();
-        this.event_type = _eventtype;
-        //Log.d("Target-constructor(1)", "~ success");
+    public Target(Target _src) {
+        this.viewState = new HashMap<>(_src.getElement());
+        this.event_type = _src.getType();
+        this.event_name = _src.getName();
     }
-    public Target(List < Integer > _tid, String _event) {
-        //Log.d("Target-constructor(2)", "start ~");
+    public Target( String _type, List < Integer > _viewid) {
+        viewState = new HashMap<>();
+        this.event_type =_type;
+        for (int i = 0; i < _viewid.size(); ++i) {
+            viewState.put(_viewid.get(i), false); }
         Log.d("Target-construction(2)", "success");
-        targetnodes = new HashMap<>();
-        this.event_type = _event;
-        for (int i = 0; i < _tid.size(); ++i) {
-            targetnodes.put(_tid.get(i), false);
-            /*todo : delete it*///Log.i("Target-element", "id :" + _tid.get(i));
+    }
+    public Target(int _name, String _type, List < Integer > _viewid) {
+        this.viewState = new HashMap<>();
+        this.event_type =_type;
+        this.event_name =_name;
+        for (int i = 0; i < _viewid.size(); ++i) {
+            viewState.put(_viewid.get(i), false); }
+        Log.d("- Target-constructor(3)", "success");
+    }
+    //method
+    public boolean compare(Target _dst) {
+        if (event_type == _dst.getType() && event_name == _dst.getName()) {
+              List < Integer > _dstid = new ArrayList<>(_dst.getViewId());
+              for (int i = 0; i < _dstid.size(); ++i) {
+                  int _curid = _dstid.get(i);
+                  if (viewState.get(_curid) == null || viewState.get(_curid) != _dst.getStatus(_curid)){
+                     return false;
+                  }
+              }
+              return true;
         }
-        //Log.d("Target-constructor(2)", "~ success");
+        return false;
     }
-    public Target(List < Integer > _tid, List < Boolean> _state, String _event) {
-        this.event_type = _event;
-        if (_tid.size() == _state.size()) {
-            for (int i = 0; i < _tid.size(); ++i) {
-                targetnodes.put(_tid.get(i), _state.get(i));
-            }
-        } else { Log.d("- Target-constructor", "success");}
-    }
-    public void setName(String _targetname) { this.target_name = _targetname;}
-    public void setStatus(int _tid, boolean _status) {
-       // if (targetnodes.containsKey(_tid)) {
-            targetnodes.put(_tid, _status);
-       // } else {
-       //     Log.e("Target add", "There is no element(" + _tid + ").");
-       // }
-    }
+    //set
+    public void setName(int _name) { this.event_name =_name;}
+    public void setStatus(int _name, boolean _status) { viewState.put(_name, _status); }
+    //get
     //print all about a information of a target
     public void getInfo() {
         Log.d("Target-info", "start");
-        List < Integer > it_key = new ArrayList<>(targetnodes.keySet());
+        List < Integer > it_key = new ArrayList<>(viewState.keySet());
         for (int i = 0; i < it_key.size(); ++i) {
             int key_val = it_key.get(i);
-            Log.i("Target_getInfo", "key : " + key_val + ", value : " + targetnodes.get(key_val));
+            Log.i("- ", "key : " + key_val + ", value : " + viewState.get(key_val));
         }
         Log.d("Target-info", "success");
-        /*
-        Log.d("Target-info2", "start");
-        Set <Map.Entry< Integer, Boolean > > it2_key = targetnodes.entrySet();
-        Iterator <Map.Entry<Integer, Boolean > > itr = it2_key.iterator();
-        while(itr.hasNext()) {
-            Map.Entry < Integer, Boolean > e= (Map.Entry <Integer, Boolean>) itr.next();
-            Log.i("Target_getInfo", "key : " + e.getKey() + ", value : " + e.getValue());
-        }
-        Log.d("Target-info2", "success");
-        */
     }
-    public String getName() { return this.target_name;}
-    public String getType() { return this.event_type;}
+    public HashMap <Integer, Boolean> getElement() { return this.viewState;}
+    //public Set< Integer > getElement() {return this.viewID.keySet();}
     public boolean getStatusAll() {
-        List < Boolean > tarState = new ArrayList<>(targetnodes.values());
+        List < Boolean > tarState = new ArrayList<>(viewState.values());
         for (int i = 0; i < tarState.size(); ++i)
             if (!tarState.get(i)) { return false;}
         return true;
     }
-    public Collection< Boolean > getStatus() { return targetnodes.values();}
-    public boolean getStatus(int _tid) { return targetnodes.get(_tid);}
-
-    public Set< Integer > getElement() {return this.targetnodes.keySet();}
-    public Integer getElement(int _index) {
-        List < Integer > item = new ArrayList<>(this.targetnodes.keySet());
-        return item.get(_index);
-    }
+    public boolean find(int _tid) { return viewState.containsKey(_tid);}
+    public boolean getStatus(int _tid) { return viewState.get(_tid);}
+    public Collection< Boolean > getStatus() { return viewState.values();}
+    public List < Integer > getViewId() {return new ArrayList<>(this.viewState.keySet());}
+    public int getName() { return this.event_name;}
+    public String getType() { return this.event_type;}
+    public int getSize() {return viewState.size();}
 }

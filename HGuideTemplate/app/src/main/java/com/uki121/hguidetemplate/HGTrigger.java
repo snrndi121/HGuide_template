@@ -20,31 +20,39 @@ class HGTrigger {
             sibling_trigger = new ArrayList<>();
             this.triggerType = _trigType;
         }
+        Trigger_Set(String _trigType, int _sibling) {
+            sibling_trigger = new ArrayList<>();
+            this.triggerType = _trigType;
+            this.sibling_trigger.add(_sibling);
+        }
         public void add(int _newTrigger) {
             sibling_trigger.add(_newTrigger);
         }
-        boolean find(int _newTrigger) {
+        boolean find(int _sibling) {
             Iterator < Integer > it = sibling_trigger.iterator();
             while(it.hasNext()) {
-                if (it.next() == _newTrigger){ return true;}
+                if (it.next() == _sibling){ return true;}
             }
             return false;
         }
-        public List < Integer > get(String _trigType) { return sibling_trigger;}
-        public String getType(int _trigger) {
+        public List < Integer > getSibling() { return sibling_trigger;}
+        public int getSize() { return sibling_trigger.size();}
+        public String getType() { return this.triggerType;}
+        public String getType(int _sibling) {
             Iterator< Integer > it = sibling_trigger.iterator();
             while(it.hasNext()) {
-                if (it.next() == _trigger) {
+                if (it.next() == _sibling) {
                     return triggerType;}
             }
             return DEFAULT_TYPE;
         }
-        String triggerType;
-        List < Integer > sibling_trigger;
+        private String triggerType;
+        private List < Integer > sibling_trigger;
     };
+    //
     enum TRIG_TYPE{Except, Empty_text, All_check, Scroll_bottom, Scroll_up};
-    private HashMap < Integer, Target > targets;//< Trigger_name, Source_views >
-    private List < Trigger_Set > trigger_list;
+    private HashMap < Integer, Target > trigTargets;//< Trigger_name, Source_views >
+    private List < Trigger_Set > trigParentList;
     private static final int MAX_TOUCH_COUNT = 15;
     private static int count = 0;
     private int statistical_count = 0;//In a view //todo : more
@@ -52,20 +60,21 @@ class HGTrigger {
         boolean status_check(String[] _args);
     }
     public HGTrigger(){
-        targets = new HashMap<>();
+        trigTargets = new HashMap<>();
+        trigParentList = new ArrayList<>();
     };
     public HGTrigger(Integer _trigname, List < Integer > _src, String _trigtype) {
-        targets = new HashMap<>();
-        targets.put(_trigname, new Target(_src, _trigtype));
+        trigTargets = new HashMap<>();
+        trigTargets.put(_trigname, new Target(_trigtype, _src));
+        trigParentList.add(new Trigger_Set(_trigtype, _trigname));
     }
-    private static List < Boolean > getStatusFrom(List < Integer > tid, View _view, String _trigtype) {
+    private static List < Boolean > getStatusFrom(List < Integer > tid, View _view) {
         List <Boolean> status = new ArrayList<>();
         try {
             for (int i = 0; i < tid.size(); ++i) {
                 int srcID = tid.get(i);
-                String sam = _view.findViewById(srcID).getAccessibilityClassName().toString();
-                //Log.d("HGT", sam);
-                switch (sam) {
+                String srcClass = _view.findViewById(srcID).getAccessibilityClassName().toString();
+                switch (srcClass) {
                     case "android.widget.CheckBox": {
                         CheckBox child_views;
                         child_views = (CheckBox)_view.findViewById(srcID);
@@ -74,7 +83,7 @@ class HGTrigger {
                         break;
                     case "android.widget.EditText": {
                         EditText child_views;
-                       child_views = _view.findViewById(srcID);
+                        child_views = _view.findViewById(srcID);
                         if (child_views.getText() != null) {
                             status.add(!child_views.getText().toString().isEmpty());
                         } else {
@@ -97,81 +106,141 @@ class HGTrigger {
         }
         return null;
     }
-    public static Target setTrigger(final String _trigtype, final List < Integer > _tid, final View _view) {
-        //1. View initializing
-        final int tsize = _tid.size();
-        final Target checked_tar = new Target(_trigtype);
-        final List <Boolean> status = new ArrayList<>(getStatusFrom(_tid, _view, _trigtype));
-        Log.i("HGT","SETTRIGGER in on " + _trigtype);
-        switch (_trigtype) {
+    public boolean updateTrigger(int _trigname, View _view) {
+        try {//todo
+            boolean isUpdate = false;
+            if (trigTargets.containsKey(_trigname)) {
+                Target newTrig = trigTargets.get(_trigname);
+                Target oldTrig = new Target(newTrig);
+                makeTrigger(newTrig, _view);
+                trigTargets.put(_trigname, newTrig);
+                return !newTrig.compare(oldTrig);
+            }
+            Log.w("HGT-update Trigger", " no such trigger name found");
+        } catch (Exception e) {
+            Log.e("HGT-update Trigger", e.getMessage());
+        }
+        return false;
+    }
+    //todo : call by references test
+    public boolean updateTrigger(Target _trigger, View _view) {
+        Target oldTrig = new Target(_trigger);
+        Target newTrig = makeTrigger(_trigger, _view);
+        trigTargets.put(_trigger.getName(), newTrig);
+        return !newTrig.compare(oldTrig);
+    }
+    public Target makeTrigger(Target _trigger, View _view) {
+        Log.i("HGT","makeTrigger in on " + _trigger.getType());
+        //view 상태 설정
+        final List <Integer> viewID = _trigger.getViewId();
+        final List <Boolean> status = new ArrayList<>(getStatusFrom(viewID, _view));
+        switch (_trigger.getType()) {
             case "Except" :
-                //* Except
-                //* 목적 : 제한된 시간이랑 버튼 카운트를 넘어가면 해야될 작업들을 알려주는 작업
-                //* 개요 : "등록된 소스 타겟이 조건안에 실행이 안되면 목적 타겟으로 알려주는 작업"
-                //* 필요한 상황
-                //1. 어떤 것들을 클릭을 해야하는데 뭘 해야될지 몰라서 헤매는 경우 (노인 경우 타겟으로함)
-                //2. 작업들간에 일련의 순서를 가지게 될것임. 그러면 굳이 process란 트리거가 필요없음.
-                //3. 소스를 등록할 떄부터 일련의 순서를 체크하게 만들고,
-                //4. 등록된 소스의 상태를 아니야 의미가 다랄.
-                //5. 내가 원래 하려고 했던거는, 뭔가의 작업이 필요한 작업들을 눌리는게 아니라 아무 액션도 안 일어
-                //나는 녀석들을 클릭하고 잇는 상황에서 다음 상태들을 알려주는 의미였음.
-                //그런데 판단해야될거는, 스크롤 이벤트를 할 수도 있고, 그렇기 때문에, 스크롤 이벤트와 이부분을
-                //차이를 둬야함. 그래서 scroll 이벤트는 무시하되, 그외 엉뚱한 이벤트가 발생할 경우 다음 할 부분을
-                //알려줘야함.
-                //그럼, 일단 각 state들에 대한 상태를 파악하는 일이 필요할것
-                //그 다음 터치이벤트가 스크롤인지 아니면 의미없는 이벤트인지 확인하는 작업이 필요함.
-                //이 부분이 꽤 복잡할 듯
-                //그럼 터치 이벤트가 발생할 때마다, 각각의 status 이벤트들이 재정의가 되야함.
-                //소스를 에딧 테스트로 해놓은 상황에서
-                //빈값 유무와 터치 유무
-                //빈갑 o & 터치 o -> false;
-                //빈값 o & 터치 x -> false;
-                //빈값 x & 터치 o -> true;
-                //빈값 x & 터치 x -> true;
-                //빈값이 유지되는 상황에서 고쳐지지 않으면(status 체크가 매번 일어남, 초로 하게 되면 너무
-                // 커짐. 그래서 터치 이벤트가 발생하면, status 체크를 하는 방식으로 바꿔야함)
-                //타겟리스트가 EditText라면 비어있는 것을 감지할거고, 지정된 타겟의 상단을 적으라고 알려주면돼
-                //타겟리스트가 EditText가 가득차있었는데, 그러면 다음 눌려야할 곳을 알려주면 그만 아닌가.\
-                //그런데, 후자를 실행함에 있어서 꼬일 염려는 없을까?
-                //액션을 하는데 있어서, Except라면 좀 다른식으로 boolean을 매겨야함.
-                //액션과 트티거는 별개임.
-                //터치이벤트가 동작을 하고 있음.
-                //Except = process 이름이 될 수도
-                //일정 순서대로 진행해야되는데 이를 src에 넣어두고 그렇게 행동을 하지 않으면 가리키게 함.
-                if ((count++) % MAX_TOUCH_COUNT == 0) {
-                    count %= MAX_TOUCH_COUNT;
-                }
+                count %= MAX_TOUCH_COUNT;
             case "All_check" :
             case "Empty_text" :
-                for (int i = 0; i < tsize; ++i) {//Log.i("HGT-setTrigger", "tid : " + _tid.get(i));
-                    checked_tar.setStatus(_tid.get(i), status.get(i));
-                }
-                return checked_tar;
-            case "Scroll_up" :
-                break;
-            case "Scroll_down" :
-                break;
+                for (int i = 0; i < status.size(); ++i)
+                    _trigger.setStatus(viewID.get(i), status.get(i));
+                return _trigger;
+            case "Scroll_up" : break;
+            case "Scroll_down" : break;
             default :
-                Log.e("HGT-setTrigger", "no such trigger type.");
+                Log.e("HGT-makeTrigger", "no such trigger type.");
                 break;
         }
         return null;
     }
-    public void add(Integer _trigname, List< Integer > _srcid, String _trigtype) { targets.put(_trigname, new Target(_srcid, _trigtype));}
-    public void add(Integer _trigname, Target _src) { targets.put(_trigname, _src);}
-    public boolean find(String _trigname) {return targets.containsKey(_trigname);}
-    public boolean getStatusAll(String _trigname) { return this.targets.get(_trigname).getStatusAll();}
-    public Target getTarget(String _trigname) {
+    //HGTrigger 클래스 멤버 추가
+    public void add(Target _trigger) {
+        addTarget(_trigger.getName(), _trigger);
+        addTrigger(_trigger.getType(), _trigger.getName());
+    }
+    public void add(String _trigtype, int _trigname, Target _src) {
+        Log.w("HGT-add"," start ~");
+        Log.d("trigtype", _trigtype);
+        Log.d("trigname", "" + _trigname);
+        addTarget(_trigname, _src);
+        addTrigger(_trigtype, _trigname);
+    }
+    public void add(String _trigtype, int _trigname, List< Integer > _srcid) {
+        addTarget(_trigtype, _trigname, _srcid);
+        addTrigger(_trigtype, _trigname);
+    }
+    //< 트리거 아이디, 타겟 > 추가하기
+    private void addTarget(String _trigtype, Integer _trigname, List< Integer > _srcid) { trigTargets.put(_trigname, new Target(_trigtype, _srcid)); }
+    private void addTarget(Integer _trigname, Target _src) { trigTargets.put(_trigname, _src); }
+    //< 트리거 타입, List 형 트리거 아이디 > 추가하기
+    //@_trigType : 트리거 타입
+    //@_siblingTrigger : 트리거 세트에 속한 트리거 ID
+    private void addTrigger(String _trigType, int _siblingTrigger) {
+        Log.w("AddTriger", " start~");
+        //boolean IsParent = false;
+        //parent는 있지만 child가 없다면
+        for (int i = 0; i < trigParentList.size(); ++i) {
+           //< parent, child >에 같은 parent가 존재 && child에 없으면
+           if (trigParentList.get(i).getType() == _trigType) {
+               //IsParent = true;
+               if (!trigParentList.get(i).find(_siblingTrigger)) {
+                   Log.d("New Child","Added!!!");
+                   trigParentList.get(i).add(_siblingTrigger);
+               }
+               Log.d("Already Child","Here!!!");
+               Log.w("AddTriger", " ~end");
+               return;
+           }
+        }
+        //parent도 없으면
+        Log.d("New parent","Added!!!");
+        //if (!IsParent) {
+            trigParentList.add(new Trigger_Set(_trigType, _siblingTrigger));
+        //}
+        Log.w("AddTriger", " ~end");
+    }
+    public boolean find(String _trigname) {return trigTargets.containsKey(_trigname.hashCode());}
+    public boolean find(int _trigname) {return trigTargets.containsKey(_trigname);}
+    public Target getTrigger(int _trigname) {
         //todo
         Log.i("HGT", "GETTARGET");
-        Target t = targets.get(_trigname);
+        Target t = trigTargets.get(_trigname);
         if (t != null) {
             Log.d("- Target", "has elements.");
-            return targets.get(_trigname);
+            return trigTargets.get(_trigname);
         }
         Log.w("- Target", "is null.");
         return null;
     }
+    public List < Integer > getSibling(String _trigType) {
+        for (int i = 0; i < trigParentList.size(); ++i) {
+            if (trigParentList.get(i).getType() == _trigType) {//추가하려는 트리거 타입과 같은 타입이 있다면
+                return trigParentList.get(i).getSibling();
+            }
+        }
+        return null;
+    }
+    public String getType(int _trigname) { return trigTargets.get(_trigname).getType();}
     public int getCount() { return count;}
-    public boolean IsMaxCount() { return count % MAX_TOUCH_COUNT == 0;}
+    public boolean IsMaxCount() { return (count++) % MAX_TOUCH_COUNT == 0;}
+    public void downCount() { if (count > 2) {count /= 2;} else {count = 0;}}/* todo : more develop*/
+    public void getInfo() {
+        //1
+        Log.w("TrigPair", "start ~");
+        List < Integer > tid = new ArrayList<>(trigTargets.keySet());
+        for (int i = 0; i < tid.size(); ++i) {
+            Log.i("TrigPair-Target", " start~");
+            Target tid_targt = trigTargets.get(tid.get(i));
+            tid_targt.getInfo();
+            Log.i("TrigPair-Target", " end~");
+        }
+        Log.w("TrigPair", "end ~");
+        //2
+        Log.w("TrigParent", " start ~");
+        for (int i = 0; i < trigParentList.size(); ++i) {
+            Log.d("trigParent", "type : " + trigParentList.get(i).getType());
+            List < Integer > trigChild = trigParentList.get(i).getSibling();
+            for (int j = 0; j < trigParentList.get(i).getSize(); ++j) {
+                Log.d("trigChild", "id : " + trigChild.get(j));
+            }
+        }
+        Log.w("TrigParent", " end ~");
+    }
 }

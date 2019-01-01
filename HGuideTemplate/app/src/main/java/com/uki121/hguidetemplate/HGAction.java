@@ -1,4 +1,4 @@
-package com.uki121.hguidetemplate;
+package com.uki121.hguidetemplate;  
 
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
@@ -25,21 +25,21 @@ class HGAction {
     enum ACT_TYPE {HIGHLIGHT, FOCUS, POINTER}
     class Action {
         private List < Target > targets;
-        private int trigger_hash_val;
+        private int trigger_name;
         private int action_point = 0;
         protected Action() {
             this.targets = new ArrayList<>();
-            this.trigger_hash_val = 0;
+            this.trigger_name = 0;
         }
-        protected Action(List < Integer > _dest, String _actiontype, int _trihash_val) {
-            this.targets = new ArrayList<>(Arrays.asList(new Target(_dest, _actiontype)));
-            this.trigger_hash_val = _trihash_val;
+        protected Action(String _actiontype, int _trigname, List < Integer > _dest) {
+            this.targets = new ArrayList<>(Arrays.asList(new Target(_actiontype, _dest)));
+            this.trigger_name = _trigname;
         }
         protected void add(Target _element) { targets.add(_element);}
         protected List < Target > getTarget() { return this.targets;}
         protected List < Target > getUndo() { return action_point != targets.size()? targets.subList(action_point, targets.size() - 1) : null; }
         protected void count() {this.action_point++;}
-        protected int getId() { return this.trigger_hash_val;}
+        protected int getId() { return this.trigger_name;}
         protected int getSize() { return this.targets.size();}
         protected int getLoc() { return this.action_point;}
     };
@@ -53,22 +53,22 @@ class HGAction {
     //@_trigger : a specific source's Target
     public void commit(View _mainview, Target _trigger) {
         try {
-            //0. 메인뷰와 트리거가 등록 안된 상태라면 예외발생(null check)
+            //0. 메인뷰�?? ?��리거��? ?����? ?��?�� ?��?��?����? ?��?��발생(null check)
             if (_mainview == null || _trigger == null) {
                 Log.w("HGA","There is no main view or sources.");
                 throw new Exception();
             }
             Log.i("HGA", "COMMIT is on");
-            //1. 트리거 이름과 연관된 액션 리스트 불러옴(Find which actions are executed)
-            int trigger_id = _trigger.getName().hashCode(); //get trigger id
-            //Log.d("HGA", "Trigger name : " + _trigger.getName() + ", hash : " + trigger_id);    //get action
+            //1. ?��리거 ?��름과 ?����??�� ?��?�� 리스?�� 불러?��(Find which actions are executed)
+            int trigger_id = _trigger.getName(); //get trigger id
+            Log.d("HGA", "Trigger name : " + _trigger.getName() + ", hash : " + trigger_id);    //get action
             List <Target> action_target = new ArrayList<>(getUndoAction(trigger_id)); //get action by trigger id
             //size check
             if (action_target.size() <= 0) {
                 Log.e("HGA", "source has no actions matched.");
                 throw new Exception();
             }
-            //2. 트리거에 따라 액션 반응 시키기
+            //2. ?��리거?�� ?��?�� ?��?�� 반응 ?��?����?
             for (int i = 0; i < action_target.size(); ++i) {
                 Target action = action_target.get(i);
                 act(_mainview, action, _trigger);
@@ -84,11 +84,11 @@ class HGAction {
     //@_child
     public void act(final View _main, Target _action, Target _trigger) {
         Log.i("HGA","ACT is on.");
-        //0. 트리거의 상태 불러 오기(execute actions by states of sources)
+        //0. ?��리거?�� ?��?�� 불러 ?����?(execute actions by states of sources)
         List < Boolean > trigStates = new ArrayList<>(_trigger.getStatus()); //get stat of sources
         try {
             //dst
-            List < Integer > dst = new ArrayList<>(_action.getElement());
+            List < Integer > dst = _action.getViewId();
             String _actiontype = _action.getType();
             switch (_actiontype) {
                 case "HIGHLIGHT":
@@ -159,17 +159,16 @@ class HGAction {
         }
         return ;
     }
-    public void add(List < Integer > _dstid, String _actiontype, String _trigname) {
-        int trig_hash_val = _trigname.hashCode();
+    public void add(String _type, int _name, List < Integer > _viewid) {
         Log.i("\nHGA","ADD is on.");
         //if there is an element already, then add into the back
-        if (!this.mActions.containsKey(trig_hash_val)) {
-                Log.d("HGA", "first actions are enrolled.");
-                this.mActions.put(trig_hash_val, new Action(_dstid, _actiontype, trig_hash_val));
+        if (!this.mActions.containsKey(_name)) {
+            Log.d("HGA", "first actions are enrolled.");
+            this.mActions.put(_name, new Action(_type, _name, _viewid));
         } else { //add into the back
-            Action new_actionsList = mActions.get(trig_hash_val);
-            new_actionsList.add(new Target(_dstid, _actiontype));
-            this.mActions.put(trig_hash_val, new_actionsList);
+            Action new_actionsList = mActions.get(_name);
+            new_actionsList.add(new Target(_type, _viewid));
+            this.mActions.put(_name, new_actionsList);
             Log.d("HGA", "new actions are added into existing action list.");
         }
 
