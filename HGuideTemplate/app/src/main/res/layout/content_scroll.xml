@@ -3,10 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools" xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/content_scroll"
     android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    android:layout_height="match_parent">
 
     <ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools" xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/container_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent">

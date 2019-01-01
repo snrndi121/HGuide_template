@@ -11,4 +11,7 @@
   <string name="button_confirm">confirm</string>
   <string name="button_cancel">cancel</string>
   <string name="button_back">back</string>
+  <string name="hint_id">ID</string>
+  <string name="hint_pwd">password</string>
+  <string name="hint_phone">cellphone</string>
 </resources>

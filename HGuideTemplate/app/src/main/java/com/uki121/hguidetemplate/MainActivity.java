@@ -101,11 +101,11 @@ public class MainActivity extends AppCompatActivity
       //fragmentTransaction.add(R.id.content_main, mscroll).commit();
       fragmentTransaction.replace(R.id.content_main, new FragmentScroll());
 
-    } /*else if (id == R.id.nav_scene2) {
+    } else if (id == R.id.nav_scene2) {
       //fragmentTransaction.add(R.id.fragment_container, new FragmentEdit());
-      //fragmentTransaction.replace(R.id.fragment_container, new FragmentEdit());
+      fragmentTransaction.replace(R.id.content_main, new FragmentEdit());
 
-    } */else if (id == R.id.nav_scene3) {
+    } else if (id == R.id.nav_scene3) {
       //fragmentTransaction.add(R.id.content_main, new FragmentProcess());
       fragmentTransaction.replace(R.id.content_main, new FragmentProcess());
 
