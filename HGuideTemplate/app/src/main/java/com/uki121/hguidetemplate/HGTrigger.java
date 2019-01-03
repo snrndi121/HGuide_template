@@ -3,6 +3,7 @@ package com.uki121.hguidetemplate;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -69,7 +70,7 @@ class HGTrigger {
         trigParentList.add(new Trigger_Set(_trigtype, _trigname));
     }
     private static List < Boolean > getStatusFrom(List < Integer > tid, View _view) {
-        List <Boolean> status = new ArrayList<>();
+        final List <Boolean> status = new ArrayList<>();
         try {
             for (int i = 0; i < tid.size(); ++i) {
                 int srcID = tid.get(i);
@@ -91,7 +92,18 @@ class HGTrigger {
                         }
                     }
                         break;
-                    case "android.widget.Button":{;}
+                    case "android.widget.Button":{
+                        Button child_views = (Button) _view.findViewById(srcID);
+                        child_views.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                status.add(true);
+                                return ;
+                            }
+                        });
+                        //Todo : 클릭 안했을 때 false가 들어갈지 의문임.
+                        status.add(false);
+                    }
                         break;
                     case "android.widget.ScrollView":{;}
                         break;
