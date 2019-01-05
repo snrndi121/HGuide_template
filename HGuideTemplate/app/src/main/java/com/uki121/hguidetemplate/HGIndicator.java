@@ -67,6 +67,7 @@ public class HGIndicator {
             final Target trigger = mtrigger.getTrigger(trigName);
             String trigType = trigger.getType();
             Log.d("TriggerType", trigType);
+            //todo : HGI에서 트리거를 재조정해서 commit 하는 작업 < 위치가 여기가 맞을까? >
             //case1_트리거 타입 : EXCEPT
             if (trigType.equals(HGTrigger.TRIG_TYPE.Except.toString())) {
                 Log.d("OK","IN");
