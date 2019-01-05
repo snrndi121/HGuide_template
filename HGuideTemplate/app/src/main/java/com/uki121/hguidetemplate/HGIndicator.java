@@ -68,14 +68,15 @@ public class HGIndicator {
             final Target trigger = mtrigger.getTrigger(trigName);
             String trigType = trigger.getType();
             Log.d("TriggerType", trigType);
-            //todo : HGI에서 트리거를 재조정해서 commit 하는 작업 < 위치가 여기가 맞을까? >
             //case1_트리거 타입 : EXCEPT
             if (trigType.equals(HGTrigger.TRIG_TYPE.Except.toString())) {
                 Log.d("OK", "IN");
                 //scrollview is higher than baseview
+                //터치이벤트에 대한 우선순위 : 스크롤뷰 > 루트뷰
                 View scrollview = HGAction.findScrollView(baseview);
                 /**/View getTouchEvent;
                 /**/getTouchEvent = scrollview != null? (ScrollView) scrollview : baseview;
+                //todo : get rid of below 2 lines
                 if (scrollview != null) { Log.w("scroll-found", " catched");}
                 else {Log.w("scroll-found", " no catched");}
                 //baseview.setOnTouchListener(new View.OnTouchListener() {
