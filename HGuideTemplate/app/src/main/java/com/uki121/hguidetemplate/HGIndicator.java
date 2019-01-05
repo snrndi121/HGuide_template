@@ -12,6 +12,7 @@ import java.util.List;
 public class HGIndicator {
     private HGTrigger mtrigger;
     private HGAction maction;
+    private HGSensor msensor;
     private List < Pair < String, Integer > > mtrigger_count;//todo
     private int temp_trigger = Integer.MAX_VALUE;  //hash value of the current trigger_name
     private View baseview;
@@ -19,6 +20,7 @@ public class HGIndicator {
     public HGIndicator(View _baseview){
         this.mtrigger = new HGTrigger();
         this.maction = new HGAction();
+        this.msensor = new HGSensor();
         this.baseview = _baseview;
     };
     public HGIndicator Trigger(String _trigname, List < Integer > _srcid, String _trigtype) {
