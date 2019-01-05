@@ -52,16 +52,6 @@ public class FragmentScroll extends Fragment {
         final CheckBox checkTos2 = (CheckBox) view.findViewById(R.id.check_tos2);
         final CheckBox checkTos3 = (CheckBox) view.findViewById(R.id.check_tos3);
 
-        checkTos1.setOnClickListener(new CheckBox.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(
-                        mcontext,
-                        "Clicked : " + v.getId(),
-                        Toast.LENGTH_SHORT
-                ).show();
-            }
-         });
         btnConfirm = (Button) view.findViewById(R.id.btn_scroll_cofirm);
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +63,8 @@ public class FragmentScroll extends Fragment {
                             .Action(dstview_id, "HIGHLIGHT")
                             .AddAction(dstview_id, "FOCUS")
                             .Commit();
+                //
+
                 }
         });
         return view;

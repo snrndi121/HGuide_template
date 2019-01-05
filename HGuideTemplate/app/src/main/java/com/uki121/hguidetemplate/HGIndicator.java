@@ -4,6 +4,7 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,54 +70,63 @@ public class HGIndicator {
             Log.d("TriggerType", trigType);
             //case1_트리거 타입 : EXCEPT
             if (trigType.equals(HGTrigger.TRIG_TYPE.Except.toString())) {
-                Log.d("OK","IN");
-                //EXCEPT 판단을 할 터치리스너 등록
-                baseview.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent e) {
-                        //2. 트리거 정보 불러오기
-                        //2-1. 현재 트리거 정보 가져오기
-                        String curType = HGTrigger.TRIG_TYPE.Except.toString();
-                        //2-2. 실행되어야할 curType의 트리거 가져오기
-                        List < Integer > curTrigs = mtrigger.getSibling(curType);
-                        //2-3 temp_trigger의 트리거 타입 가져오기
-                        String oldType = mtrigger.getType(temp_trigger);
-                        //3.현재 트리거와 임시 트리거 타입 비교
-                        Log.d("curType/oldType", curType + "/ " + oldType);
-                        if (curType != oldType) {
-                            Log.w("Trigger state"," changed");
-                        } else {
-                            Log.w("Trigger state"," same before");
+                Log.d("OK", "IN");
+                //scrollview is higher than baseview
+                View scrollview = HGAction.findScrollView(baseview);
+                /**/View getTouchEvent;
+                /**/getTouchEvent = scrollview != null? (ScrollView) scrollview : baseview;
+                if (scrollview != null) { Log.w("scroll-found", " catched");}
+                else {Log.w("scroll-found", " no catched");}
+                //baseview.setOnTouchListener(new View.OnTouchListener() {
+                getTouchEvent.setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View v, MotionEvent e) {
+                            updateCommit();
+                            Log.d("HGI-Touch", "" + mtrigger.getCount());
+                            return true;
                         }
-                        Log.d("Trigger silbing", " size : " + curTrigs.size());
-
-                        //4. 현재 타입에 맞는 트리거 동작
-                        for (int i = 0; i < curTrigs.size(); ++i) {
-                               //이전에 기록된 트리거 정보 가져오기
-                               int tid = curTrigs.get(i);
-                               temp_trigger = tid;
-                               boolean isUpdate = mtrigger.updateTrigger(tid, baseview);/*ver1.0*///Target t = mtrigger.getTrigger(curTrigs.get(i)); mtrigger.updateTrigger(t, baseview);
-                                Log.w("update ", " >> " + isUpdate);
-                               //업데이트가 생겼다면 카운트 조정
-                               if (isUpdate) {
-                                  mtrigger.downCount();
-                               }
-                               //업데이트가 없다면 count를 올려간다.
-                               ///1. Commit 동작 condition : 특정 횟수 이상일 때 동작
-                               else if (mtrigger.IsMaxCount()) {
-                                  //action 클래스에 해당 트리거를 던져준다.
-                                  maction.commit(baseview, mtrigger.getTrigger(tid));
-                               }
-                         }
-                        Log.d("HGI-Touch", "" + mtrigger.getCount());
-                        return true;
-                    }
-                });
+                    });
             } else { //trigger_type : remain
                   maction.commit(baseview, trigger);
             }
         } catch (Exception e) {
             Log.i("HGI","Commit has an error. main view is null.");
         }
+    }
+    public void updateCommit() {
+        //2. 트리거 정보 불러오기//2-1 현재 트리거 정보 가져오기
+        String curType = HGTrigger.TRIG_TYPE.Except.toString();
+        //2-2. 실행되어야할 curType의 트리거 가져오기
+        List < Integer > curTrigs = mtrigger.getSibling(curType);
+        //2-3 temp_trigger의 트리거 타입 가져오기
+        String oldType = mtrigger.getType(temp_trigger);
+        //3.현재 트리거와 임시 트리거 타입 비교
+        Log.d("curType/oldType", curType + "/ " + oldType);
+        if (curType != oldType) {
+            Log.w("Trigger state"," changed");
+        } else {
+            Log.w("Trigger state"," same before");
+        }
+        Log.d("Trigger silbing", " size : " + curTrigs.size());
+
+        //4. 현재 타입에 맞는 트리거 동작
+        for (int i = 0; i < curTrigs.size(); ++i) {
+            //이전에 기록된 트리거 정보 가져오기
+            int tid = curTrigs.get(i);
+            temp_trigger = tid;
+            boolean isUpdate = mtrigger.updateTrigger(tid, baseview);/*ver1.0*///Target t = mtrigger.getTrigger(curTrigs.get(i)); mtrigger.updateTrigger(t, baseview);
+            Log.w("update ", " >> " + isUpdate);
+            //업데이트가 생겼다면 카운트 조정
+            if (isUpdate) {
+                mtrigger.downCount();
+            }
+            //업데이트가 없다면 count를 올려간다.
+            ///1. Commit 동작 condition : 특정 횟수 이상일 때 동작
+            else if (mtrigger.IsMaxCount()) {
+                //action 클래스에 해당 트리거를 던져준다.
+                maction.commit(baseview, mtrigger.getTrigger(tid));
+            }
+        }
+
     }
 }

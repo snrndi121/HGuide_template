@@ -82,7 +82,8 @@ class HGAction {
     //@_main : a main view of current views
     //@_action : a 'Target' which has action_type and destination target
     //@_child
-    public void act(final View _main, Target _action, Target _trigger) {
+    /*
+    public void act(final View _view, Target _action, Target _trigger) {
         Log.i("HGA","ACT is on.");
         //0. ?��리거?�� ?��?�� 불러 ?����?(execute actions by states of sources)
         List < Boolean > trigStates = new ArrayList<>(_trigger.getStatus()); //get stat of sources
@@ -94,32 +95,25 @@ class HGAction {
                 case "HIGHLIGHT":
                     for (int i = 0; i < dst.size(); ++i) {
                         if (!trigStates.get(i))
-                            highlight((TextView) _main.findViewById(dst.get(i)));
+                            highlight((TextView) _view.findViewById(dst.get(i)));
                     }
                     Log.d("Action : ", "HIGHLIGHT");
                     break;
                 case "FOCUS":
                     //find scrollview
-                    int id = 0; boolean scrl_found = false;
-                    LinearLayout root = (LinearLayout)_main;
+                    LinearLayout root = (LinearLayout)_view;
                     View[] children = new View[root.getChildCount()];
-                    for (id = 0; id < root.getChildCount(); ++id) {
-                        children[id] = (View) root.getChildAt(id);
-                        Log.d("Child-name", "" + children[id].getAccessibilityClassName());
-                        if (children[id].getAccessibilityClassName().equals("android.widget.ScrollView")) {
-                            scrl_found = true;
-                            break;
-                        }
-                    }
-                    if (!scrl_found) {
+                    int scroll_id = findScrollView(_view);
+                    if (scroll_id < 0) {
                         Log.e("HGA-act", "There is no scrollview found");
                         throw new Exception();
                     }
                     //focus
+                    children[scroll_id] = (View) root.getChildAt(scroll_id);
                     for (int i = 0; i< dst.size(); ++i) {
                         int curID = dst.get(i);
                         if (!trigStates.get(i))
-                            scrollToView(_main.findViewById(curID), (ScrollView) children[id], 0);
+                            scrollToView(_view.findViewById(curID), (ScrollView) children[scroll_id], 0);
                             break;
                     }
                     Log.d("Action : ", "FOCUS");
@@ -130,20 +124,19 @@ class HGAction {
                     int tarID = Integer.MAX_VALUE;
                     for (int i = 0; i < dst.size(); ++i) {
                         int curID = dst.get(i);
-                        if (!trigStates.get(i) && _main.findViewById(curID).getAccessibilityClassName().toString() == "android.widget.EditText") {
+                        if (!trigStates.get(i) && _view.findViewById(curID).getAccessibilityClassName().toString() == "android.widget.EditText") {
                             if (curID < tarID)
                                 tarID = curID;
-                        }/* todo : else if () */
+                        }// todo : else if ()
                     }
                     if (tarID != Integer.MAX_VALUE) {
-                        editText = (EditText) _main.findViewById(tarID);
+                        editText = (EditText) _view.findViewById(tarID);
                         editText.post(new Runnable() {
                             @Override
                             public void run() {
                                 editText.setFocusableInTouchMode(true);
                                 editText.requestFocus();
-
-                                InputMethodManager imm = (InputMethodManager) _main.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                                InputMethodManager imm = (InputMethodManager) _view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                                 imm.showSoftInput(editText, 0);
                             }
                         });
@@ -158,8 +151,75 @@ class HGAction {
             Log.e("HGA-act", e.getMessage());
         }
         return ;
+    }*/
+    public void act(final View _view, Target _action, Target _trigger) {
+            Log.i("HGA","ACT is on.");
+            //0. ?��리거?�� ?��?�� 불러 ?����?(execute actions by states of sources)
+            List < Boolean > trigStates = new ArrayList<>(_trigger.getStatus()); //get stat of sources
+            try {
+                //dst
+                List < Integer > dst = _action.getViewId();
+                String _actiontype = _action.getType();
+                switch (_actiontype) {
+                case "HIGHLIGHT":
+                    for (int i = 0; i < dst.size(); ++i) {
+                        if (!trigStates.get(i))
+                        highlight((TextView) _view.findViewById(dst.get(i)));
+                    }
+                    Log.d("Action : ", "HIGHLIGHT");
+                    break;
+                case "FOCUS":
+                    //find scrollview
+                    LinearLayout root = (LinearLayout)_view;
+                    View scrollview = findScrollView(_view);
+                    if (scrollview == null) {
+                        Log.e("HGA-act", "There is no scrollview found");
+                        throw new Exception();
+                    }
+                    //focus
+                    for (int i = 0; i< dst.size(); ++i) {
+                        int curID = dst.get(i);
+                        if (!trigStates.get(i))
+                            scrollToView(_view.findViewById(curID), (ScrollView) scrollview, 0);
+                        break;
+                    }
+                    Log.d("Action : ", "FOCUS");
+                    break;
+                case "POINTER"://todo : animation is needed
+                    Log.i("Action : ", "POINTER");
+                    final EditText editText;
+                    int tarID = Integer.MAX_VALUE;
+                    for (int i = 0; i < dst.size(); ++i) {
+                        int curID = dst.get(i);
+                        if (!trigStates.get(i) && _view.findViewById(curID).getAccessibilityClassName().toString() == "android.widget.EditText") {
+                            if (curID < tarID)
+                             tarID = curID;
+                        }/* todo : else if () */
+                    }
+                    if (tarID != Integer.MAX_VALUE) {
+                        editText = (EditText) _view.findViewById(tarID);
+                        editText.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                    editText.setFocusableInTouchMode(true);
+                                    editText.requestFocus();
+                                    InputMethodManager imm = (InputMethodManager) _view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                                    imm.showSoftInput(editText, 0);
+                                    }
+                        });
+                    }
+                    break;
+                    case "POPUP":
+                default:
+                        Log.w("Action : ", "There is no such action name(" + _actiontype + ")");
+                        break;
+            }
+        } catch (Exception e) {
+            Log.e("HGA-act", e.getMessage());
+        }
+        return ;
     }
-    public void add(String _type, int _name, List < Integer > _viewid) {
+public void add(String _type, int _name, List < Integer > _viewid) {
         Log.i("\nHGA","ADD is on.");
         //if there is an element already, then add into the back
         if (!this.mActions.containsKey(_name)) {
@@ -178,6 +238,36 @@ class HGAction {
         return temp.getTarget();
     }
     //method
+    /*
+    public static int findScrollView(View _view) {
+        int id;
+        LinearLayout root = (LinearLayout)_view;
+        View[] children = new View[root.getChildCount()];
+        //
+        for (id = 0; id < root.getChildCount(); ++id) {
+            children[id] = (View) root.getChildAt(id);
+            Log.d("Child-name", "" + children[id].getAccessibilityClassName());
+            if (children[id].getAccessibilityClassName().equals("android.widget.ScrollView")) {
+                return id;
+            }
+        }
+        return -1;
+    }
+    */
+    public static View findScrollView(View _view) {
+        int id;
+        LinearLayout root = (LinearLayout)_view;
+        View[] children = new View[root.getChildCount()];
+        //
+        for (id = 0; id < root.getChildCount(); ++id) {
+            children[id] = (View) root.getChildAt(id);
+            Log.d("Child-name", "" + children[id].getAccessibilityClassName());
+            if (children[id].getAccessibilityClassName().equals("android.widget.ScrollView")) {
+                return children[id];
+            }
+        }
+        return null;
+    }
     private void highlight(TextView _target) {
         ObjectAnimator anim = ObjectAnimator.ofInt(_target, "backgroundColor", Color.WHITE, Color.BLUE,
                 Color.WHITE);
