@@ -29,6 +29,7 @@ public class FragmentProcess extends Fragment {
         hgIndicator.Trigger("process_confirm", target_id, "Except")
                     .Action(target_id, "FOCUS")
                     .Commit();
+
         btn_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
