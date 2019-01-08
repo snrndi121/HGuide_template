@@ -85,9 +85,9 @@ public class HGIndicator {
                 getTouchEvent.setOnTouchListener(new View.OnTouchListener() {
                         @Override
                         public boolean onTouch(View v, MotionEvent e) {
-                            updateCommit();
+                            if( updateCommit() ) return true;
                             Log.d("HGI-Touch", "" + mtrigger.getCount());
-                            return true;
+                            return false;
                         }
                     });
             } else { //trigger_type : remain
@@ -97,7 +97,7 @@ public class HGIndicator {
             Log.i("HGI","Commit has an error. main view is null.");
         }
     }
-    public void updateCommit() {
+    public boolean updateCommit() {
         //2. 트리거 정보 불러오기//2-1 현재 트리거 정보 가져오기
         String curType = HGTrigger.TRIG_TYPE.Except.toString();
         //2-2. 실행되어야할 curType의 트리거 가져오기
@@ -129,8 +129,9 @@ public class HGIndicator {
             else if (mtrigger.IsMaxCount()) {
                 //action 클래스에 해당 트리거를 던져준다.
                 maction.commit(baseview, mtrigger.getTrigger(tid));
+                return true;
             }
         }
-
+    return false;
     }
 }

@@ -43,6 +43,7 @@ public class FragmentProcess extends Fragment {
         btn_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.w("btn-clicked", " !!");
                 show();
             }
         });
@@ -60,7 +61,7 @@ public class FragmentProcess extends Fragment {
             Log.i("info", sensitiveInfo.get(i));
         }
         final CharSequence[] items = sensitiveInfo.toArray(new String[sensitiveInfo.size()]);
-
+        //Alert Dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Sensitive Info");
         builder.setItems(items, new DialogInterface.OnClickListener() {
