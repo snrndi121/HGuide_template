@@ -7,6 +7,18 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+/* todo : 우선순위 1위
+   HGSensor는 각 뷰가 끝날때마다의 Touch 횟수와 Time을 뷰 별로 저장을 해야함.
+   시작과 끝을 만들어줘야하는데...
+   if (저 단계가 해결), 평균값 계산하고 HGS를 핸드폰 내부에 저장할 수도 있고, 서버로 넘겨줄수도 있겠지.
+   2019. 01. 13
+   - 일단 HGSensor가 Touch와 Time을 저장하는 용도로 사용하고 추후에 동기화하고, 데이터는 넘기는 부분은
+     이 프로젝트의 목적을 벗어나는 일. 개별적으로 구현하면 되는 부분.
+   - HGSensor 내부에서 Weight 값을 설정하는 부분이 있는데, 이것을 interface로 돌려야할 것 같은데
+     구체적으로 어떻게 해야할지 감이 잘 오지 않음. interface WeightSensor 라고 하고 내부에.
+   - 그럼 결론적으로 해야할 부분은, 각 동작을 마치면서 HGIndicator 안의 HGSensor를 업데이트 하면 되는 부분
+     그리고 업데이트 되면 중앙값을 다시 조정하고
+*/
 public class HGSensor {
     enum SenseType {
         DESPERATE("DESPERATE", 40, 30000),
@@ -88,17 +100,18 @@ public class HGSensor {
     // 사용자가 직접 입력하는 값을 받아서 설정함.
     //특정 뷰에 대하여 직접 sense값 변경
     //todo : 나중에 sentype으로 변경을 할 수 있도록 자세한 변수를 안 나오도록 할 것임
-    public void assignByid(int _viewid, SenseType _src) {
+    private void assignByid(int _viewid, SenseType _src) {
         if (viewSenseLevel.containsKey(_viewid)) {
-            viewSenseLevel.put(_viewid, _src);
-            Log.d("HGS-assign", "get SenseType");
+            Log.d("HGS-assign", "alreay in ");
         }
-        Log.w("HGS-assign", "no action)");
+        viewSenseLevel.put(_viewid, _src);
+        Log.w("HGS-assign", "first enrolled");
     }
     //
-    //- synchronize() return ;
-    // 지정된 데이터 베이스를 받아와서 설정하는 부분
-    public void synchSensorBy() {;};
+    public void updateSensor(int _viewid, int _touch, int _wait) {
+        assignByid(_viewid, SenseType.calculateTypeBy(_touch, _wait));
+        setMeanSense();
+    }
     //set
     //각 뷰마다 설정된 sense 값을 바탕으로 평균값을 형성하여 종합적인 값을 도출함.
     public void setMeanSense() {
